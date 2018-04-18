@@ -21,7 +21,7 @@ public class Persoon {
     private String woonplaats;
     private String land;
     private LocalDate geboortedatum;
-    private String Login;
+    private String login;
     private String paswoord;
     private char soort;
 
@@ -98,11 +98,11 @@ public class Persoon {
     }
 
     public String getLogin() {
-        return Login;
+        return login;
     }
 
-    public void setLogin(String Login) {
-        this.Login = Login;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPaswoord() {
@@ -124,7 +124,7 @@ public class Persoon {
     public Persoon() {
     }
 
-    public Persoon(int id, String voornaam, String familienaam, String straat, String huisnr, String postcode, String woonplaats, String land, LocalDate geboortedatum, String Login, String paswoord, char soort) {
+    public Persoon(int id, String voornaam, String familienaam, String straat, String huisnr, String postcode, String woonplaats, String land, LocalDate geboortedatum, String login, String paswoord, char soort) {
         this.id = id;
         this.voornaam = voornaam;
         this.familienaam = familienaam;
@@ -134,7 +134,7 @@ public class Persoon {
         this.woonplaats = woonplaats;
         this.land = land;
         this.geboortedatum = geboortedatum;
-        this.Login = Login;
+        this.login = login;
         this.paswoord = paswoord;
         this.soort = soort;
     }
