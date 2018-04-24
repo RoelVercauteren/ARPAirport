@@ -32,7 +32,7 @@ public class DAHangar {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM hangar where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM hangar");) {
             if (resultSet.next()) {
                 hangar = new Hangar();
                 hangar.setId(resultSet.getInt("id"));

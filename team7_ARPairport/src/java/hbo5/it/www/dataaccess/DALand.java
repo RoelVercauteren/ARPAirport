@@ -32,7 +32,7 @@ public class DALand {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM lad where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM land ");) {
             if (resultSet.next()) {
                 land = new Land();
                 land.setId(resultSet.getInt("id"));

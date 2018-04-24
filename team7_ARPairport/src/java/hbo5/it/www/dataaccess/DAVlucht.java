@@ -33,7 +33,7 @@ public class DAVlucht {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM vlucht where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM vlucht");) {
             if (resultSet.next()) {
                 vlucht = new Vlucht();
                 vlucht.setId(resultSet.getInt("id"));

@@ -31,7 +31,7 @@ public class DAPassagier {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM passagier where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM passagier");) {
             if (resultSet.next()) {
                 passagier = new Passagier();
                 passagier.setId(resultSet.getInt("id"));

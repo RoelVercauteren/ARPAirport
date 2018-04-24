@@ -33,7 +33,7 @@ public class DAStockage {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM stockage where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM stockage");) {
             if (resultSet.next()) {
                 stockage = new Stockage();
                 stockage.setId(resultSet.getInt("id"));

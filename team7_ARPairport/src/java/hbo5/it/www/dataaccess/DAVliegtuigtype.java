@@ -33,7 +33,7 @@ public class DAVliegtuigtype {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM vligtuigtype where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM vligtuigtype");) {
             if (resultSet.next()) {
                 vliegtuigtype = new Vliegtuigtype();
                 vliegtuigtype.setId(resultSet.getInt("id"));

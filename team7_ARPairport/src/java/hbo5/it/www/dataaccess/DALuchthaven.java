@@ -32,7 +32,7 @@ public class DALuchthaven {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM luchthaven where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM luchthaven ");) {
             if (resultSet.next()) {
                 luchthaven = new Luchthaven();
                 luchthaven.setId(resultSet.getInt("id"));
