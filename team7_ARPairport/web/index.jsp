@@ -51,9 +51,9 @@
                 border: none;
                 color: #FFFFFF;
                 text-align: center;
-                font-size: 28px;
-                padding: 20px;
-                width: 200px;
+                font-size: 14px;
+                padding: 8px;
+                width: 80%; /*200px*/
                 transition: all 0.5s;
                 cursor: pointer;
                 margin: 5px;
@@ -124,8 +124,20 @@
         </div>
         <div class="split right">
             <div class="centered">
-                <p>Ik ben werknemer en wil mezelf aanmelden</p>
-                <button class="button" style="vertical-align:middle"><span>Aanmelden!</span></button>
+                <form action="InlogServlet">
+                    <p>
+                        <label>Username: </label>
+                        <input type="text" name="Username"/>
+                    </p>
+                    <p>
+                        <label>Password: </label>
+                        <input type="password" name="Password"/>
+                    </p>
+                    <p>
+                        <button class="button" type="submit" style="vertical-align:middle"><span>Aanmelden!</span></button>
+                        <button class="button" style="vertical-align:middle"><span>Registreren!</span></button>
+                    </p>
+                </form>
             </div>
         </div>
     </body>
