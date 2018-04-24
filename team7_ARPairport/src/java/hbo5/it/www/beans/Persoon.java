@@ -13,6 +13,7 @@ import java.sql.Date;
  * @author roel_
  */
 public class Persoon {
+
     private int id;
     private String voornaam;
     private String familienaam;
@@ -25,7 +26,15 @@ public class Persoon {
     private String login;
     private String paswoord;
     private String soort;
+    private boolean valid;
+    
+    public boolean isValid() {
+        return valid;
+    }
 
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
     public int getId() {
         return id;
     }

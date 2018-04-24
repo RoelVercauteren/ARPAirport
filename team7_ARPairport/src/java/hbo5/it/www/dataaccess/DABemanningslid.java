@@ -31,7 +31,7 @@ public class DABemanningslid {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM bemanningslid where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM bemanningslid ");) {
             if (resultSet.next()) {
               bemanningslid = new Bemanningslid();
               bemanningslid.setId(resultSet.getInt("id"));

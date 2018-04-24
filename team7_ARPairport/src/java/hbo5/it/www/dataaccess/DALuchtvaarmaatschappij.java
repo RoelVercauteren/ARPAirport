@@ -31,7 +31,7 @@ public class DALuchtvaarmaatschappij {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM luchtvaarmaatschappij where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM luchtvaarmaatschappij ");) {
             if (resultSet.next()) {
                 luchtvaarmaatschappij = new Luchtvaartmaatschappij();
                 luchtvaarmaatschappij.setId(resultSet.getInt("id"));

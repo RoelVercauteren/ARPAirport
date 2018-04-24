@@ -33,7 +33,7 @@ public class DAFunctie {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM hangar where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM functie");) {
             if (resultSet.next()) {
                 functie = new Functie();
                 functie.setId(resultSet.getInt("id"));

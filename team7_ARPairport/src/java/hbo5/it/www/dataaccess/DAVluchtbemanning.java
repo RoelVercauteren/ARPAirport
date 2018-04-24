@@ -33,7 +33,7 @@ public class DAVluchtbemanning {
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM vligtuig where id = 1");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM vluchtbemanning");) {
             if (resultSet.next()) {
                 vluchtbemanning = new Vluchtbemanning();
                 vluchtbemanning.setId(resultSet.getInt("id"));
