@@ -119,7 +119,7 @@
         <div class="split left">
             <div class="centered">
                 <p>Ik ben klant en wil informatie opzoeken voor vluchten.</p>
-                <button class="button" style="vertical-align:middle"><span>Vluchten zoeken!</span></button>
+                <form action="ZoekServlet"><button class="button" style="vertical-align:middle" value="zoekKnop"><span>Vluchten zoeken!</span></button></form>
             </div>
         </div>
         <div class="split right">
