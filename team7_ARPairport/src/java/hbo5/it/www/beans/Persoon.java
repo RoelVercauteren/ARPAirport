@@ -5,7 +5,8 @@
  */
 package hbo5.it.www.beans;
 
-import java.time.LocalDate;
+import java.sql.Date;
+
 
 /**
  *
@@ -20,10 +21,10 @@ public class Persoon {
     private String postcode;
     private String woonplaats;
     private String land;
-    private LocalDate geboortedatum;
+    private Date geboortedatum;
     private String login;
     private String paswoord;
-    private char soort;
+    private String soort;
 
     public int getId() {
         return id;
@@ -89,11 +90,11 @@ public class Persoon {
         this.land = land;
     }
 
-    public LocalDate getGeboortedatum() {
+    public Date getGeboortedatum() {
         return geboortedatum;
     }
 
-    public void setGeboortedatum(LocalDate geboortedatum) {
+    public void setGeboortedatum(Date geboortedatum) {
         this.geboortedatum = geboortedatum;
     }
 
@@ -113,18 +114,18 @@ public class Persoon {
         this.paswoord = paswoord;
     }
 
-    public char getSoort() {
+    public String getSoort() {
         return soort;
     }
 
-    public void setSoort(char soort) {
+    public void setSoort(String soort) {
         this.soort = soort;
     }
 
     public Persoon() {
     }
 
-    public Persoon(int id, String voornaam, String familienaam, String straat, String huisnr, String postcode, String woonplaats, String land, LocalDate geboortedatum, String login, String paswoord, char soort) {
+    public Persoon(int id, String voornaam, String familienaam, String straat, String huisnr, String postcode, String woonplaats, String land, Date geboortedatum, String login, String paswoord, String soort) {
         this.id = id;
         this.voornaam = voornaam;
         this.familienaam = familienaam;

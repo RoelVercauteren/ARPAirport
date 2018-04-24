@@ -10,81 +10,107 @@ package hbo5.it.www.beans;
  * @author roel_
  */
 public class Vluchtbemanning {
-    private int id;
-    private int luchtvaartmaatschappij_id;
-    private Luchtvaartmaatschappij luchtvaartmaatschappij;
-    private int persoon_id;
-    private Persoon persoon;
-    private int functie_id;
-    private Functie functie;
 
+    /**
+     * @return the id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getLuchtvaartmaatschappij_id() {
-        return luchtvaartmaatschappij_id;
+    /**
+     * @return the taak
+     */
+    public String getTaak() {
+        return taak;
     }
 
-    public void setLuchtvaartmaatschappij_id(int luchtvaartmaatschappij_id) {
-        this.luchtvaartmaatschappij_id = luchtvaartmaatschappij_id;
+    /**
+     * @param taak the taak to set
+     */
+    public void setTaak(String taak) {
+        this.taak = taak;
     }
 
-    public Luchtvaartmaatschappij getLuchtvaartmaatschappij() {
-        return luchtvaartmaatschappij;
+    /**
+     * @return the bemanningsl_id
+     */
+    public int getBemanningslid_id() {
+        return bemanningslid_id;
     }
 
-    public void setLuchtvaartmaatschappij(Luchtvaartmaatschappij luchtvaartmaatschappij) {
-        this.luchtvaartmaatschappij = luchtvaartmaatschappij;
+    /**
+     * @param bemanningsl_id the bemanningsl_id to set
+     */
+    public void setBemanningslid_id(int bemanningslid_id) {
+        this.bemanningslid_id = bemanningslid_id;
     }
 
-    public int getPersoon_id() {
-        return persoon_id;
+    /**
+     * @return the vlucht_id
+     */
+    public int getVlucht_id() {
+        return vlucht_id;
     }
 
-    public void setPersoon_id(int persoon_id) {
-        this.persoon_id = persoon_id;
+    /**
+     * @param vlucht_id the vlucht_id to set
+     */
+    public void setVlucht_id(int vlucht_id) {
+        this.vlucht_id = vlucht_id;
     }
 
-    public Persoon getPersoon() {
-        return persoon;
+    /**
+     * @return the vlucht
+     */
+    public Vlucht getVlucht() {
+        return vlucht;
     }
 
-    public void setPersoon(Persoon persoon) {
-        this.persoon = persoon;
+    /**
+     * @param vlucht the vlucht to set
+     */
+    public void setVlucht(Vlucht vlucht) {
+        this.vlucht = vlucht;
     }
 
-    public int getFunctie_id() {
-        return functie_id;
+    /**
+     * @return the bemanningslid
+     */
+    public Bemanningslid getBemanningslid() {
+        return bemanningslid;
     }
 
-    public void setFunctie_id(int functie_id) {
-        this.functie_id = functie_id;
-    }
-
-    public Functie getFunctie() {
-        return functie;
-    }
-
-    public void setFunctie(Functie functie) {
-        this.functie = functie;
+    /**
+     * @param bemanningslid the bemanningslid to set
+     */
+    public void setBemanningslid(Bemanningslid bemanningslid) {
+        this.bemanningslid = bemanningslid;
     }
 
     public Vluchtbemanning() {
     }
 
-    public Vluchtbemanning(int id, int luchtvaartmaatschappij_id, Luchtvaartmaatschappij luchtvaartmaatschappij, int persoon_id, Persoon persoon, int functie_id, Functie functie) {
+    public Vluchtbemanning(int id, String taak, int bemanningsl_id, int vlucht_id, Vlucht vlucht, Bemanningslid bemanningslid) {
         this.id = id;
-        this.luchtvaartmaatschappij_id = luchtvaartmaatschappij_id;
-        this.luchtvaartmaatschappij = luchtvaartmaatschappij;
-        this.persoon_id = persoon_id;
-        this.persoon = persoon;
-        this.functie_id = functie_id;
-        this.functie = functie;
+        this.taak = taak;
+        this.bemanningslid_id = bemanningslid_id;
+        this.vlucht_id = vlucht_id;
+        this.vlucht = vlucht;
+        this.bemanningslid = bemanningslid;
     }
-        
+    private int id;
+    private String taak;
+    private int bemanningslid_id;
+    private int vlucht_id;
+    private Vlucht vlucht;
+    private Bemanningslid bemanningslid;
+
 }

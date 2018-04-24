@@ -5,7 +5,8 @@
  */
 package hbo5.it.www.beans;
 
-import java.time.LocalDate;
+import java.sql.Date;
+
 
 /**
  *
@@ -14,8 +15,8 @@ import java.time.LocalDate;
 public class Vlucht {
     private int id;
     private String code;
-    private LocalDate vertrektijd;
-    private LocalDate aankomsttijd;
+    private Date vertrektijd;
+    private Date aankomsttijd;
     private int vliegtuig_id;
     private Vliegtuig vliegtuig;
     private int vertrekluchthaven_id;
@@ -39,19 +40,19 @@ public class Vlucht {
         this.code = code;
     }
 
-    public LocalDate getVertrektijd() {
+    public Date getVertrektijd() {
         return vertrektijd;
     }
 
-    public void setVertrektijd(LocalDate vertrektijd) {
+    public void setVertrektijd(Date vertrektijd) {
         this.vertrektijd = vertrektijd;
     }
 
-    public LocalDate getAankomsttijd() {
+    public Date getAankomsttijd() {
         return aankomsttijd;
     }
 
-    public void setAankomsttijd(LocalDate aankomsttijd) {
+    public void setAankomsttijd(Date aankomsttijd) {
         this.aankomsttijd = aankomsttijd;
     }
 
@@ -106,7 +107,7 @@ public class Vlucht {
     public Vlucht() {
     }
 
-    public Vlucht(int id, String code, LocalDate vertrektijd, LocalDate aankomsttijd, int vliegtuig_id, Vliegtuig vliegtuig, int vertrekluchthaven_id, Luchthaven vertrekluchthaven, int aankomstluchthaven_id, Luchthaven aankomstluchthaven) {
+    public Vlucht(int id, String code, Date vertrektijd, Date aankomsttijd, int vliegtuig_id, Vliegtuig vliegtuig, int vertrekluchthaven_id, Luchthaven vertrekluchthaven, int aankomstluchthaven_id, Luchthaven aankomstluchthaven) {
         this.id = id;
         this.code = code;
         this.vertrektijd = vertrektijd;
