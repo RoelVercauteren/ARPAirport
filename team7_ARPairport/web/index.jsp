@@ -119,7 +119,12 @@
         <div class="split left">
             <div class="centered">
                 <p>Ik ben klant en wil informatie opzoeken voor vluchten.</p>
-                <form action="ZoekServlet"><button class="button" style="vertical-align:middle" value="zoekKnop"><span>Vluchten zoeken!</span></button></form>
+                <form action="ZoekServlet">
+                    <div class="button"><span>
+                    <input type="submit" value="Vluchten zoeken!" name="zoekKnop"/>
+                    </span></div>
+             <%--       <button type="submit" class="button" style="vertical-align:middle" name="zoekButton" value="zoekKnop"><span>Vluchten zoeken!</span></button>
+            --%>    </form>
             </div>
         </div>
         <div class="split right">
