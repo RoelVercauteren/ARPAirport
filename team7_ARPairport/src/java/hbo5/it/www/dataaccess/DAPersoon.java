@@ -11,14 +11,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.resource.spi.ConnectionManager;
 
 /**
  *
  * @author andre
  */
 public class DAPersoon {
-       private final String url, login, password;
-     public DAPersoon(String url, String login, String password, String driver)
+
+    private final String url, login, password;
+
+    public DAPersoon(String url, String login, String password, String driver)
             throws ClassNotFoundException {
         Class.forName(driver);
         this.url = url;
@@ -46,11 +49,52 @@ public class DAPersoon {
                 persoon.setLogin(resultSet.getString("login"));
                 persoon.setPaswoord(resultSet.getString("pasword"));
                 persoon.setSoort(resultSet.getString("soort"));
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return persoon;
+    }
+
+    public Persoon login(Persoon user) {
+        Statement stmt = null;
+        Connection currentCon = null;
+        ResultSet rs = null;
+        String username = user.getLogin();
+        String password = user.getPaswoord();
+
+        String searchQuery = "SELECT * FROM WHERE login='" + username + "' AND Paswoord='" + password + "'";
+
+        try {
+            Connection connection = DriverManager.getConnection(this.url, this.login, this.password);
+            Statement statement = connection.createStatement();
+            rs = stmt.executeQuery(searchQuery);
+
+            if (!rs.next()) {
+                System.out.println("Sorry, you are not a registered user! Please sign up first");
+                user.setValid(false);
+            } else {
+                user.setValid(true);
+            }
+        } catch (Exception ex) {
+            System.out.println("Login failed: An Exception has occured!" + ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception ex) {
+                }
+                rs = null;
+            }
+
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (Exception ex) {}
+                stmt = null;
+            }
+        }
+        return user;
     }
 }

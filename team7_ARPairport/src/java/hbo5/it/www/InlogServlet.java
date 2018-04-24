@@ -6,6 +6,7 @@
 package hbo5.it.www;
 
 import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.dataaccess.DAPersoon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -52,10 +53,21 @@ public class InlogServlet extends HttpServlet {
             throws ServletException, IOException {
         try
         {
+            DAPersoon dap = new DAPersoon("Database URL	jdbc:oracle:thin:@ti-oracledb06.thomasmore.be:1521:XE","c1042424","1234", "Driver class	oracle.jdbc.OracleDriver");
             Persoon user = new Persoon();
             user.setLogin(request.getParameter("Username"));
             user.setPaswoord(request.getParameter("Password"));
             
+            user = dap.login(user);
+            
+            if (user.isValid()) {
+                HttpSession session = request.getSession(true);
+                session.setAttribute("currentSessionUser", user);
+                response.sendRedirect("loggedinPage.jsp");
+            }
+            else {
+                response.sendRedirect("invalidLogin.jsp");
+            }
         }
         catch(Throwable theException){
             System.out.println(theException);
