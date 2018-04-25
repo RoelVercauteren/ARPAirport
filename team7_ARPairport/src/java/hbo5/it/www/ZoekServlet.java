@@ -5,8 +5,14 @@
  */
 package hbo5.it.www;
 
+import hbo5.it.www.beans.Luchthaven;
+import hbo5.it.www.beans.Vlucht;
+import hbo5.it.www.dataaccess.DALuchthaven;
+import hbo5.it.www.dataaccess.DAVlucht;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -34,17 +40,58 @@ public class ZoekServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        
+    private DAVlucht davlucht = null;
+    private DALuchthaven daluchthaven = null;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            String url = getInitParameter("url");
+            String login = getInitParameter("login");
+            String paswoord = getInitParameter("paswoord");
+            String driver = getInitParameter("driver");
+
+            if (davlucht == null) {
+                davlucht = new DAVlucht(url, login, paswoord, driver);
+            }
+            if (daluchthaven == null) {
+                daluchthaven = new DALuchthaven(url, login, paswoord, driver);
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new ServletException(e);
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        RequestDispatcher rd = null;
+
+        if (request.getParameter("zoekKnop") != null) {
+
+            ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
+
+            rd = request.getRequestDispatcher("zoek.jsp");
+            request.setAttribute("luchthavens", luchthavens);
+        } else if (request.getParameter("zoekBinnenkomendeVluchtenKnop") != null) {
+            int luchthavenid = Integer.parseInt(request.getParameter("selectLuchthaven"));
+            ArrayList<Vlucht> vluchten = davlucht.getBinnenkomendeVluchten(luchthavenid);
+
+            rd = request.getRequestDispatcher("vluchten.jsp");
+            request.setAttribute("vluchten", vluchten);
+
+        } else if (request.getParameter("zoekVertrekkendeVluchtenKnop") != null) {
+            int luchthavenid = Integer.parseInt(request.getParameter("selectLuchthaven"));
+            ArrayList<Vlucht> vluchten = davlucht.getVertrekkendeVluchten(luchthavenid);
+
+            rd = request.getRequestDispatcher("vluchten.jsp");
+            request.setAttribute("vluchten", vluchten);
+        }
+        rd.forward(request, response);
+    }
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
