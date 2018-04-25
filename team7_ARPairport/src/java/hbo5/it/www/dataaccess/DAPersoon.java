@@ -64,15 +64,14 @@ public class DAPersoon {
         String username = user.getLogin();
         String password = user.getPaswoord();
 
-        String searchQuery = "SELECT * FROM WHERE login='" + username + "' AND Paswoord='" + password + "'";
+        String searchQuery = "SELECT * FROM PERSOON WHERE login='" + username + "' AND Paswoord='" + password + "'";
 
         try {
             Connection connection = DriverManager.getConnection(this.url, this.login, this.password);
-            Statement statement = connection.createStatement();
+            stmt = connection.createStatement();
             rs = stmt.executeQuery(searchQuery);
 
             if (!rs.next()) {
-                System.out.println("Sorry, you are not a registered user! Please sign up first");
                 user.setValid(false);
             } else {
                 user.setValid(true);

@@ -124,7 +124,7 @@
         </div>
         <div class="split right">
             <div class="centered">
-                <form action="InlogServlet">
+                <form action="InlogServlet" method="GET">
                     <p>
                         <label>Username: </label>
                         <input type="text" name="Username"/>
@@ -132,6 +132,9 @@
                     <p>
                         <label>Password: </label>
                         <input type="password" name="Password"/>
+                        <% if((String)request.getAttribute("fout") != null) { %>
+                    <p><%session.getAttribute("fout");%></p>
+                    <%}%>
                     </p>
                     <p>
                         <button class="button" type="submit" style="vertical-align:middle"><span>Aanmelden!</span></button>

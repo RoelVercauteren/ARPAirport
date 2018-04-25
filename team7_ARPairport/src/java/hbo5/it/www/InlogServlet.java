@@ -10,6 +10,7 @@ import hbo5.it.www.dataaccess.DAPersoon;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,14 @@ import javax.servlet.http.HttpSession;
  *
  * @author 3230059
  */
-@WebServlet(name = "InlogServlet", urlPatterns = {"/InlogServlet"})
+@WebServlet(name = "InlogServlet", urlPatterns = {"/InlogServlet"}, initParams = {
+    @WebInitParam(name = "url", value = "jdbc:oracle:thin:@ti-oracledb06.thomasmore.be:1521:XE")
+    , @WebInitParam(name = "login", value = "C1042424")
+    , @WebInitParam(name = "paswoord", value = "1234")
+    , @WebInitParam(name = "driver", value = "oracle.jdbc.driver.OracleDriver")})
+
 public class InlogServlet extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -30,7 +37,7 @@ public class InlogServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InlogServlet</title>");            
+            out.println("<title>Servlet InlogServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet InlogServlet at " + request.getContextPath() + "</h1>");
@@ -51,25 +58,29 @@ public class InlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            DAPersoon dap = new DAPersoon("Database URL	jdbc:oracle:thin:@ti-oracledb06.thomasmore.be:1521:XE","c1042424","1234", "Driver class	oracle.jdbc.OracleDriver");
+        try {
+            request.setAttribute("servlet", "yes");
+            request.removeAttribute("fout");
+            String url = getInitParameter("url");
+            String login = getInitParameter("login");
+            String password = getInitParameter("paswoord");
+            String driver = getInitParameter("driver");
+            DAPersoon dap = new DAPersoon(url, login, password, driver);
             Persoon user = new Persoon();
             user.setLogin(request.getParameter("Username"));
             user.setPaswoord(request.getParameter("Password"));
-            
+
             user = dap.login(user);
-            
+            HttpSession session = request.getSession(true);
+
             if (user.isValid()) {
-                HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser", user);
-                response.sendRedirect("loggedinPage.jsp");
+                response.sendRedirect("LoggedIn.jsp");
+            } else {
+                session.setAttribute("fout", "Uw login en/of paswoord is incorrect!");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             }
-            else {
-                response.sendRedirect("invalidLogin.jsp");
-            }
-        }
-        catch(Throwable theException){
+        } catch (Throwable theException) {
             System.out.println(theException);
         }
     }
