@@ -21,12 +21,20 @@
         <table>
             <tr>
                 <th>Code</th>
+                <th>Vertrekplaats</th>
                 <th>Vertrektijd</th>
+                <th>Aankomstplaats</th>
+                <th>Aankomsttijd</th>
             </tr>
 
             <% for (Vlucht vlucht : vluchten) {%>
-            <tr><%=vlucht.getCode()%></tr>
-            <tr><%=vlucht.getVertrektijd()%></tr>
+            <tr>
+                <td><%=vlucht.getCode()%></td>
+                <td><%=vlucht.getVertrekluchthaven().getLuchthavennaam()%> - <%=vlucht.getVertrekluchthaven().getStad()%></td>
+                <td><%=vlucht.getVertrektijd()%></td>    
+                <td><%=vlucht.getAankomstluchthaven().getLuchthavennaam()%> - <%=vlucht.getAankomstluchthaven().getStad()%></td>
+                <td><%=vlucht.getAankomsttijd()%></td>
+            </tr>
             <% }%>
         </table>
 
