@@ -91,8 +91,11 @@ public class ZoekServlet extends HttpServlet {
             request.setAttribute("vluchten", vluchten);
         } else if (request.getParameter("zoekVluchtenMetFilter") != null) {
             String code = request.getParameter("vluchtcode");
-            
+
             LocalDate datum = LocalDate.of(2017, 6, 1);  //LocalDate.parse(request.getParameter("datum"));
+
+            // datum = LocalDate.parse("2017-06-01");
+            datum = LocalDate.parse(request.getParameter("datum"));
 
             String bestemming = request.getParameter("bestemming");
             String luchtvaartmaatschappij = request.getParameter("luchtvaartmaatschappij");
@@ -101,6 +104,19 @@ public class ZoekServlet extends HttpServlet {
 
             rd = request.getRequestDispatcher("vluchten.jsp");
             request.setAttribute("vluchten", vluchten);
+        } else if (request.getParameter("toonMeerDetails") != null) {
+            int id = Integer.parseInt(request.getParameter("vluchtid"));
+
+            Vlucht vlucht = davlucht.getVlucht(id);
+
+            rd = request.getRequestDispatcher("vluchtDetails.jsp");
+            request.setAttribute("vlucht", vlucht);
+
+            int aantalPassagiers = davlucht.getAantalPassagiers(id);
+            request.setAttribute("aantalPassagiers", aantalPassagiers);
+
+            String piloot = davlucht.getPilootNaam(id);
+            request.setAttribute("piloot", piloot);
         }
 
         rd.forward(request, response);

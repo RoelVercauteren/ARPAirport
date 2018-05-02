@@ -43,8 +43,8 @@
                     <input type="text" id="vluchtcode" name="vluchtcode"></input>
                 </p>  
                 <p>
-                    <label for="datum">Datum: </label>
-                    <input type="text" id="datum" name="datum"></input>
+                    <label for="datum">Datum (yyyy-mm-dd): </label>
+                    <input type="text" id="datum" name="datum" value="2017-06-01"></input>
                 </p>  
                 <p>
                     <label for="bestemming">Bestemming: </label>
@@ -59,6 +59,7 @@
                 </p>
             </form>
 
+            <a href="index.jsp">Terug</a>
 
         </div>
 
