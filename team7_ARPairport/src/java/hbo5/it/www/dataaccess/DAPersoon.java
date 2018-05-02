@@ -8,6 +8,7 @@ package hbo5.it.www.dataaccess;
 import hbo5.it.www.beans.Persoon;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,6 +56,22 @@ public class DAPersoon {
             e.printStackTrace();
         }
         return persoon;
+    }
+    
+    public boolean insertPersoon(Persoon newperson){
+        boolean resultaat = true;
+        
+        try
+        {
+            Connection connection = DriverManager.getConnection(url, login, password);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO persoon values (persoon_seq.nextval, ?)");
+            statement.setObject(1, newperson);
+            statement.executeUpdate();
+        } catch(Exception e){
+            resultaat=false;
+            e.printStackTrace();
+        }
+        return resultaat;
     }
 
     public Persoon login(Persoon user) {

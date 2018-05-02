@@ -137,13 +137,13 @@
                     <p>
                         <label>Password: </label>
                         <input type="password" name="Password"/>
-                        <% if((String)request.getAttribute("fout") != null) { %>
+                        <% if((String)request.getAttribute("result") != null) { %>
                     <p><%session.getAttribute("fout");%></p>
                     <%}%>
                     </p>
                     <p>
-                        <button class="button" type="submit" style="vertical-align:middle"><span>Aanmelden!</span></button>
-                        <button class="button" style="vertical-align:middle"><span>Registreren!</span></button>
+                        <button name="login" class="button" type="submit" style="vertical-align:middle"><span>Aanmelden!</span></button>
+                        <button name="register" class="button" style="vertical-align:middle"><span>Registreren!</span></button>
                     </p>
                 </form>
             </div>
