@@ -120,11 +120,8 @@
             <div class="centered">
                 <p>Ik ben klant en wil informatie opzoeken voor vluchten.</p>
                 <form action="ZoekServlet">
-                    <div class="button"><span>
-                    <input type="submit" value="Vluchten zoeken!" name="zoekKnop"/>
-                    </span></div>
-             <%--       <button type="submit" class="button" style="vertical-align:middle" name="zoekButton" value="zoekKnop"><span>Vluchten zoeken!</span></button>
-            --%>    </form>
+                    <button type="submit" class="button" style="vertical-align:middle" name="zoekKnop"><span>Vluchten zoeken!</span></button>
+                </form>
             </div>
         </div>
         <div class="split right">
@@ -137,7 +134,7 @@
                     <p>
                         <label>Password: </label>
                         <input type="password" name="Password"/>
-                        <% if((String)request.getAttribute("result") != null) { %>
+                        <% if ((String) request.getAttribute("result") != null) { %>
                     <p><%session.getAttribute("fout");%></p>
                     <%}%>
                     </p>

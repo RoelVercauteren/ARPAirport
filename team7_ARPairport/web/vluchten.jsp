@@ -13,13 +13,25 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Overzicht vluchten</title>
+
+        <link rel="stylesheet" type="text/css" href="css/tablestyle.css">
+
+        <style>
+            body {
+                font-family: "Lucida Console", Monaco, monospace;
+                background-color: lightblue;
+                width:1200px;
+                margin: 0 auto;
+            }
+        </style>
+
     </head>
     <body>
         <h1>Vluchten</h1>
 
         <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("vluchten"); %>
 
-        <table border="1">
+        <table border="1" class="redTable">
             <tr>
                 <th>Code</th>
                 <th>Vertrekplaats</th>
@@ -49,7 +61,7 @@
         </table>
 
 
-        <a href="ZoekServlet?zoekKnop">Terug</a>
+        <p><a href="ZoekServlet?zoekKnop">Terug</a></p>
 
     </body>
 </html>

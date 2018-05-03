@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -92,15 +93,14 @@ public class ZoekServlet extends HttpServlet {
         } else if (request.getParameter("zoekVluchtenMetFilter") != null) {
             String code = request.getParameter("vluchtcode");
 
-            LocalDate datum = LocalDate.of(2017, 6, 1);  //LocalDate.parse(request.getParameter("datum"));
+            String datestring = request.getParameter("datum");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate datum = LocalDate.parse(datestring, formatter);
 
-            // datum = LocalDate.parse("2017-06-01");
-            datum = LocalDate.parse(request.getParameter("datum"));
-
-            String bestemming = request.getParameter("bestemming");
-            String luchtvaartmaatschappij = request.getParameter("luchtvaartmaatschappij");
-
-            ArrayList<Vlucht> vluchten = davlucht.GetFilteredVluchten(code, datum, bestemming, luchtvaartmaatschappij);
+            String bestemming = request.getParameter("bestemming");;
+            String luchtvaartmaatschappij = request.getParameter("luchtvaartmaatschappij");;
+             
+            ArrayList<Vlucht> vluchten = davlucht.GetFilteredVluchten(code, datum, bestemming, luchtvaartmaatschappij);;
 
             rd = request.getRequestDispatcher("vluchten.jsp");
             request.setAttribute("vluchten", vluchten);

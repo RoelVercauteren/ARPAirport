@@ -13,46 +13,46 @@
     </head>
     <body>
         <form action="InlogServlet" method="GET">
-                    <p>
-                        <label>Voornaam:</label>
-                        <input type="text" name="FirstName"/>
-                        <label>Achternaam:</label>
-                        <input type="text" name="Surname"/>
-                    </p>
-                    <p>
-                        <label>Straat:</label>
-                        <input type="text" name="Street"/>
-                        <label>Huisnummer:</label>
-                        <input type="text" name="Number"/>
-                    </p>
-                    <p>
-                        <label>Postcode:</label>
-                        <input type="text" name="PostalCode"/>
-                    </p>
-                    <p>
-                        <label>Woonplaats:</label>
-                        <input type="text" name="Place"/>
-                    </p>
-                    <p>
-                        <label>Land:</label>
-                        <input type="text" name="Country"/>
-                    </p>
-                    <p>
-                        <label>Geboortedatum:</label>
-                        <input type="date" name="DateOfBirth"/>
-                    </p>
-                    <p>
-                        <label>Login:</label>
-                        <input type="text" name="Login"/>
-                    </p>
-                    <p>
-                        <label>Passwoord:</label>
-                        <input type="text" name="Password"/>
-                    </p>
-                    <p>
-                        <button name="confirm" class="button"><span>Registreren</span></button> 
-                        <label name="lblResult"/>
-                    </p>
-                </form>
+            <p>
+                <label>Voornaam:</label>
+                <input type="text" name="FirstName"/>
+                <label>Achternaam:</label>
+                <input type="text" name="Surname"/>
+            </p>
+            <p>
+                <label>Straat:</label>
+                <input type="text" name="Street"/>
+                <label>Huisnummer:</label>
+                <input type="text" name="Number"/>
+            </p>
+            <p>
+                <label>Postcode:</label>
+                <input type="text" name="PostalCode"/>
+            </p>
+            <p>
+                <label>Woonplaats:</label>
+                <input type="text" name="Place"/>
+            </p>
+            <p>
+                <label>Land:</label>
+                <input type="text" name="Country"/>
+            </p>
+            <p>
+                <label>Geboortedatum:</label>
+                <input type="date" name="DateOfBirth"/>
+            </p>
+            <p>
+                <label>Login:</label>
+                <input type="text" name="Login"/>
+            </p>
+            <p>
+                <label>Passwoord:</label>
+                <input type="text" name="Password"/>
+            </p>
+            <p>
+                <button name="confirm" class="button"><span>Registreren</span></button> 
+                <label name="lblResult"/>
+            </p>
+        </form>
     </body>
 </html>

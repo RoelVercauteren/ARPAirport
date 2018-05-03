@@ -11,6 +11,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Details Vlucht</title>
+
+        <link rel="stylesheet" type="text/css" href="css/tablestyle.css">
+
+        <style>
+            body {
+                font-family: "Lucida Console", Monaco, monospace;
+                background-color: lightblue;
+                width:800px;
+                margin: 0 auto;
+            }
+        </style>
+
     </head>
     <body>
 
@@ -20,7 +32,7 @@
             Vlucht vlucht = (Vlucht) request.getAttribute("vlucht");
         %>
 
-        <table>            
+        <table class="redTable" style="width:600px;margin:0 auto;">            
             <tr>
                 <td>Code</td>
                 <td><%=vlucht.getCode()%></td>                
@@ -59,7 +71,7 @@
             </tr>  
         </table>
 
-        <a href="#" onclick="history.go(-1)">Terug</a>
+        <p><a href="#" onclick="history.go(-1)">Terug</a></p>
 
     </body>
 </html>
