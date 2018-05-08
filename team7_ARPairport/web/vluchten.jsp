@@ -4,6 +4,7 @@
     Author     : roel_
 --%>
 
+<%@page import="hbo5.it.www.beans.VluchtComparator"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="hbo5.it.www.beans.Vlucht"%>
@@ -30,6 +31,7 @@
         <h1>Vluchten</h1>
 
         <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("vluchten"); %>
+        <% vluchten.sort(new VluchtComparator()); %>
 
         <table border="1" class="redTable">
             <tr>
@@ -52,7 +54,7 @@
                 <td><%=vlucht.getVliegtuig().getLuchtvaartmaatschappij().getLuchtvaartnaam()%></td>
                 <td>
                     <form action="ZoekServlet">
-                        <input type="hidden" name="vluchtid" value="<%=vlucht.getId()%>">  
+                        <input type="hidden" name="vluchtid" value="<%=vlucht.getId()%>" />  
                         <input type="submit" value="Toon Details" name="toonMeerDetails" />
                     </form>
                 </td>

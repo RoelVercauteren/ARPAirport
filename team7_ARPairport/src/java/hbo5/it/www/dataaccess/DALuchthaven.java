@@ -5,6 +5,7 @@
  */
 package hbo5.it.www.dataaccess;
 
+import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import hbo5.it.www.beans.Land;
 import hbo5.it.www.beans.Luchthaven;
 import java.sql.Connection;
@@ -54,7 +55,7 @@ public class DALuchthaven {
         ArrayList<Luchthaven> luchthavens = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(url, login, password);
-                PreparedStatement statement = connection.prepareStatement("select * from luchthaven");) {
+                PreparedStatement statement = connection.prepareStatement("select * from LUCHTHAVEN join LAND on LAND.ID=LUCHTHAVEN.LAND_ID");) {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -64,6 +65,11 @@ public class DALuchthaven {
                 luchthaven.setLuchthavennaam(resultSet.getString("luchthavennaam"));
                 luchthaven.setStad(resultSet.getString("stad"));
                 luchthaven.setLand_id(resultSet.getInt("land_id"));
+
+                Land land = new Land();
+                land.setId(resultSet.getInt("land_id"));
+                land.setLandnaam(resultSet.getString("landnaam"));
+                luchthaven.setLand(land);
 
                 luchthavens.add(luchthaven);
             }
