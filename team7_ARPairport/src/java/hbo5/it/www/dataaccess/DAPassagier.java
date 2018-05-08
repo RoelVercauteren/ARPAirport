@@ -6,19 +6,28 @@
 package hbo5.it.www.dataaccess;
 
 import hbo5.it.www.beans.Passagier;
+import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.beans.Vlucht;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
 
 /**
  *
  * @author andre
  */
 public class DAPassagier {
-        private final String url, login, password;
-     public DAPassagier(String url, String login, String password, String driver)
+
+    private final String url, login, password;
+    
+
+    public DAPassagier(String url, String login, String password, String driver)
             throws ClassNotFoundException {
         Class.forName(driver);
         this.url = url;
@@ -41,11 +50,12 @@ public class DAPassagier {
                 passagier.setPlaats(resultSet.getString("plaats"));
                 passagier.setVlucht_id(resultSet.getInt("vlucht_id"));
                 passagier.setPersoon_id(resultSet.getInt("persoon_id"));
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return passagier;
     }
+   
 }

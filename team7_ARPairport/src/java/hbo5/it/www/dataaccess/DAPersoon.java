@@ -6,11 +6,14 @@
 package hbo5.it.www.dataaccess;
 
 import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.beans.Vlucht;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.resource.spi.ConnectionManager;
 
 /**
@@ -95,5 +98,22 @@ public class DAPersoon {
             }
         }
         return user;
+    }
+     public ArrayList<Vlucht> getVluchtenByPersoon(Persoon id) {
+        ArrayList<Vlucht> vluchten = new ArrayList<>();
+       
+      
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from  persoon join passagier"
+                        + " on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht "
+                        + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID where PERSOON.ID=?"
+                );) {
+            ResultSet resultSet = statement.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return vluchten;
     }
 }
