@@ -59,6 +59,22 @@ public class DAPersoon {
         }
         return persoon;
     }
+    
+    public boolean insertPersoon(Persoon newperson){
+        boolean resultaat = true;
+        
+        try
+        {
+            Connection connection = DriverManager.getConnection(url, login, password);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO persoon values (persoon_seq.nextval, ?)");
+            statement.setObject(1, newperson);
+            statement.executeUpdate();
+        } catch(Exception e){
+            resultaat=false;
+            e.printStackTrace();
+        }
+        return resultaat;
+    }
 
     public Persoon login(Persoon user) {
         Statement stmt = null;

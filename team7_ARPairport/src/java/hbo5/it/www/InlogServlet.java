@@ -9,6 +9,10 @@ import hbo5.it.www.beans.Persoon;
 import hbo5.it.www.dataaccess.DAPersoon;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -58,30 +62,68 @@ public class InlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setAttribute("servlet", "yes");
-            request.removeAttribute("fout");
-            String url = getInitParameter("url");
-            String login = getInitParameter("login");
-            String password = getInitParameter("paswoord");
-            String driver = getInitParameter("driver");
-            DAPersoon dap = new DAPersoon(url, login, password, driver);
-            Persoon user = new Persoon();
-            user.setLogin(request.getParameter("Username"));
-            user.setPaswoord(request.getParameter("Password"));
+        if (request.getParameter("Login") != null) {
+            try {
+                request.setAttribute("servlet", "yes");
+                request.removeAttribute("fout");
+                String url = getInitParameter("url");
+                String login = getInitParameter("login");
+                String password = getInitParameter("paswoord");
+                String driver = getInitParameter("driver");
+                DAPersoon dap = new DAPersoon(url, login, password, driver);
+                Persoon user = new Persoon();
+                user.setLogin(request.getParameter("Username"));
+                user.setPaswoord(request.getParameter("Password"));
 
-            user = dap.login(user);
-            HttpSession session = request.getSession(true);
+                user = dap.login(user);
+                HttpSession session = request.getSession(true);
 
-            if (user.isValid()) {
-                session.setAttribute("currentSessionUser", user);
-                response.sendRedirect("LoggedIn.jsp");
-            } else {
-                session.setAttribute("fout", "Uw login en/of paswoord is incorrect!");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                if (user.isValid()) {
+                    session.setAttribute("currentSessionUser", user);
+                    response.sendRedirect("LoggedIn.jsp");
+                } else {
+                    session.setAttribute("result", "Uw login en/of paswoord is incorrect!");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                }
+            } catch (Throwable theException) {
+                System.out.println(theException);
             }
-        } catch (Throwable theException) {
-            System.out.println(theException);
+        } else if (request.getParameter("register") != null) {
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
+        } else {
+            //Nieuwe user aanmaken
+            Persoon p = new Persoon();
+            p.setVoornaam(request.getParameter("FirstName"));
+            p.setFamilienaam(request.getParameter("Surname"));
+            p.setStraat(request.getParameter("Street"));
+            p.setHuisnr(request.getParameter("Number"));
+            p.setPostcode(request.getParameter("PostalCode"));
+            p.setWoonplaats(request.getParameter("Place"));
+            p.setLand(request.getParameter("Country"));
+            p.setLogin(request.getParameter("Login"));
+            p.setPaswoord(request.getParameter("Password"));
+
+            try {
+                String datestring = request.getParameter("DateOfBirth");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate dob = LocalDate.parse(datestring, formatter);
+                java.sql.Date sqlDate = java.sql.Date.valueOf(dob);
+                p.setGeboortedatum(sqlDate);
+                DAPersoon dap = new DAPersoon(getInitParameter("url"), getInitParameter("login"), getInitParameter("paswoord"), getInitParameter("driver"));
+
+                if (dap.insertPersoon(p)) {
+                    //Succesvol geregistreerd
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("result", "U bent geregisteerd!");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                } else {
+                    //Foutmelding
+                }
+
+            } catch (Throwable theException) {
+                System.out.println(theException);
+            }
+
         }
     }
 
