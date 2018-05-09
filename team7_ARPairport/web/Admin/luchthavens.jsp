@@ -30,7 +30,7 @@
     <body>
         <h1>Luchthavens Beheren</h1>
 
-        <form action="ManageServlet">
+        <form action="AdminServlet">
             <input type="submit" value="Luchthaven Toevoegen" name="luchthavenToevoegen" />
         </form>
 
@@ -49,16 +49,19 @@
                 <td><%=luchthaven.getStad()%></td>
                 <td><%=luchthaven.getLand().getLandnaam()%></td>
                 <td>
-                    <form action="AdminServlet">
-                        <input type="hidden" name="luchthavenid" value="<%=luchthaven.getId()%>" />
-                        <input type="submit" value="Aanpassen" name="luchthavenAanpassen" />
-                    </form>
+                    <%--   <form action="AdminServlet">
+                               <input type="hidden" name="luchthavenid" value="<%=luchthaven.getId()%>" /> 
+                           <input type="submit" value="Aanpassen" name="luchthavenAanpassen" id="<%=luchthaven.getId()%>"/>
+                       </form>
+                    --%>
+                    <a href ="AdminServlet?luchthavenAanpassen=<%=luchthaven.getId()%>">
+                        <input type="submit" name="luchthavenAanpassen" value="Aanpassen">
+                    </a>
                 </td>
                 <td>
-                    <form action="AdminServlet">
-                        <input type="hidden" name="luchthavenid" value="<%=luchthaven.getId()%>" />
-                        <input type="submit" value="Verwijderen" name="luchthavenVerwijderen" />
-                    </form>
+                    <a href ="AdminServlet?luchthavenVerwijderen=<%=luchthaven.getId()%>">
+                        <input type="submit" name="luchthavenVerwijderen" value="Verwijderen">
+                    </a>
                 </td>
             </tr>
 

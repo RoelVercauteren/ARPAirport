@@ -8,17 +8,21 @@ package hbo5.it.www.dataaccess;
 import hbo5.it.www.beans.Luchtvaartmaatschappij;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author andre
  */
-public class DALuchtvaarmaatschappij {
+public class DALuchtvaartmaatschappij {
+
     private final String url, login, password;
-     public DALuchtvaarmaatschappij(String url, String login, String password, String driver)
+
+    public DALuchtvaartmaatschappij(String url, String login, String password, String driver)
             throws ClassNotFoundException {
         Class.forName(driver);
         this.url = url;
@@ -36,11 +40,34 @@ public class DALuchtvaarmaatschappij {
                 luchtvaarmaatschappij = new Luchtvaartmaatschappij();
                 luchtvaarmaatschappij.setId(resultSet.getInt("id"));
                 luchtvaarmaatschappij.setLuchtvaartnaam(resultSet.getString("luchtvaartnaam"));
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return luchtvaarmaatschappij;
+    }
+
+    public ArrayList<Luchtvaartmaatschappij> getLuchtvaartmaatschappijen() {
+        ArrayList luchtvaartmaatschappijen = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from luchtvaartmaatschappij");) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Luchtvaartmaatschappij luchtvaartmaatschappij = new Luchtvaartmaatschappij();
+
+                luchtvaartmaatschappij.setId(resultSet.getInt("id"));
+                luchtvaartmaatschappij.setLuchtvaartnaam(resultSet.getString("luchtvaartnaam"));
+
+                luchtvaartmaatschappijen.add(luchtvaartmaatschappij);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return luchtvaartmaatschappijen;
     }
 }
