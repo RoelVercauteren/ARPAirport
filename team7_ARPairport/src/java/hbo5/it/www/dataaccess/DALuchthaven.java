@@ -51,6 +51,28 @@ public class DALuchthaven {
         return luchthaven;
     }
 
+    public Luchthaven getLuchthaven(int id) {
+        Luchthaven luchthaven = null;
+        try (
+                Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from luchthaven where id=?");) {
+
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                luchthaven = new Luchthaven();
+                luchthaven.setId(resultSet.getInt("id"));
+                luchthaven.setLuchthavennaam(resultSet.getString("luchthavennaam"));
+                luchthaven.setStad(resultSet.getString("stad"));
+                luchthaven.setLand_id(resultSet.getInt("land_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return luchthaven;
+    }
+
     public ArrayList<Luchthaven> getLuchthavens() {
         ArrayList<Luchthaven> luchthavens = new ArrayList<>();
 
@@ -79,6 +101,55 @@ public class DALuchthaven {
         }
 
         return luchthavens;
+    }
+
+    public boolean addLuchthaven(String naam, String stad, int land_id) {
+        boolean resultaat = true;
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO LUCHTHAVEN VALUES (LUCHTHAVEN_seq.nextval, ?, ?, ?)");) {
+            statement.setString(1, naam);
+            statement.setString(2, stad);
+            statement.setInt(3, land_id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            resultaat = false;
+            e.printStackTrace();
+        }
+        return resultaat;
+    }
+
+    public boolean deleteLuchthaven(int id) {
+        boolean resultaat = true;
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("delete from luchthaven where id=?");) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            resultaat = false;
+            e.printStackTrace();
+        }
+
+        return resultaat;
+    }
+
+    public boolean updateLuchthaven(int id, String naam, String stad, int landid) {
+        boolean resultaat = true;
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("update luchthaven set luchthavennaam=?, stad=?,land_id=? where id=?");) {
+            statement.setString(1, naam);
+            statement.setString(2, stad);
+            statement.setInt(3, landid);
+            statement.setInt(4, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            resultaat = false;
+            e.printStackTrace();
+        }
+
+        return resultaat;
     }
 
 }

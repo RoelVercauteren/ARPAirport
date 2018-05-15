@@ -5,8 +5,12 @@
  */
 package hbo5.it.www;
 
+import hbo5.it.www.beans.Land;
 import hbo5.it.www.beans.Luchthaven;
+import hbo5.it.www.beans.Luchtvaartmaatschappij;
+import hbo5.it.www.dataaccess.DALand;
 import hbo5.it.www.dataaccess.DALuchthaven;
+import hbo5.it.www.dataaccess.DALuchtvaartmaatschappij;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -39,6 +43,8 @@ public class AdminServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private DALuchthaven daluchthaven = null;
+    private DALand dalanden = null;
+    private DALuchtvaartmaatschappij daluchtvaartmaatschappij = null;
 
     @Override
     public void init() throws ServletException {
@@ -50,6 +56,12 @@ public class AdminServlet extends HttpServlet {
 
             if (daluchthaven == null) {
                 daluchthaven = new DALuchthaven(url, login, paswoord, driver);
+            }
+            if (dalanden == null) {
+                dalanden = new DALand(url, login, paswoord, driver);
+            }
+            if (daluchtvaartmaatschappij == null) {
+                daluchtvaartmaatschappij = new DALuchtvaartmaatschappij(url, login, paswoord, driver);
             }
 
         } catch (ClassNotFoundException e) {
@@ -71,7 +83,12 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("luchthavens", luchthavens);
 
         } else if (request.getParameter("knopLuchtvaartmaatschappijen") != null) {
+
+            ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = daluchtvaartmaatschappij.getLuchtvaartmaatschappijen();
+            request.setAttribute("luchtvaartmaatschappijen", luchtvaartmaatschappijen);
+
             rd = request.getRequestDispatcher("Admin/luchtvaartmaatschappijen.jsp");
+
         } else if (request.getParameter("knopVliegtuigen") != null) {
             rd = request.getRequestDispatcher("Admin/vliegtuigen.jsp");
         } else if (request.getParameter("knopHangars") != null) {
@@ -82,6 +99,92 @@ public class AdminServlet extends HttpServlet {
             rd = request.getRequestDispatcher("Admin/vluchtbemanning.jsp");
         } else if (request.getParameter("knopVliegtuigenInHangars") != null) {
             rd = request.getRequestDispatcher("Admin/vliegtuigenInHangars.jsp");
+        } else if (request.getParameter("luchthavenToevoegen") != null) {
+
+            if (request.getParameter("luchthavenToevoegen").equals("Toevoegen")) {
+                String naam = request.getParameter("naam");
+                String stad = request.getParameter("stad");
+
+                int landid = Integer.parseInt(request.getParameter("selectLand"));
+
+                if (daluchthaven.addLuchthaven(naam, stad, landid)) {
+                    ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
+
+                    rd = request.getRequestDispatcher("Admin/luchthavens.jsp");
+                    request.setAttribute("luchthavens", luchthavens);
+                } else {
+                    rd = request.getRequestDispatcher("Admin/luchthavenToevoegen.jsp");
+
+                    ArrayList<Land> landen = dalanden.getLanden();
+                    request.setAttribute("landen", landen);
+                }
+
+            } else {
+                rd = request.getRequestDispatcher("Admin/luchthavenToevoegen.jsp");
+
+                ArrayList<Land> landen = dalanden.getLanden();
+                request.setAttribute("landen", landen);
+            }
+
+        } else if (request.getParameter("luchthavenAanpassen") != null) {
+
+            if (request.getParameter("luchthavenAanpassen").equals("Aanpassen")) {
+                int id = Integer.parseInt(request.getParameter("luchthavenid"));
+
+                String naam = request.getParameter("naam");
+                String stad = request.getParameter("stad");
+                int landid = Integer.parseInt(request.getParameter("selectLand"));
+
+                if (daluchthaven.updateLuchthaven(id, naam, stad, landid)) {
+                    ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
+
+                    rd = request.getRequestDispatcher("Admin/luchthavens.jsp");
+                    request.setAttribute("luchthavens", luchthavens);
+                } else {
+                    rd = request.getRequestDispatcher("error.jsp");
+                    request.setAttribute("fout", "Wijzigen luchthaven mislukt");
+                }
+
+            } else {
+                int id = Integer.parseInt(request.getParameter("luchthavenAanpassen"));
+
+                Luchthaven luchthaven = daluchthaven.getLuchthaven(id);
+                request.setAttribute("luchthaven", luchthaven);
+
+                ArrayList<Land> landen = dalanden.getLanden();
+                request.setAttribute("landen", landen);
+
+                rd = request.getRequestDispatcher("Admin/luchthavenAanpassen.jsp");
+            }
+
+        } else if (request.getParameter("luchthavenVerwijderen") != null) {
+
+            int id = Integer.parseInt(request.getParameter("luchthavenVerwijderen"));
+
+            if (daluchthaven.deleteLuchthaven(id)) {
+                ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
+
+                rd = request.getRequestDispatcher("Admin/luchthavens.jsp");
+                request.setAttribute("luchthavens", luchthavens);
+            } else {
+                request.setAttribute("fout", "Verwijderen luchthaven niet gelukt");
+                rd = request.getRequestDispatcher("error.jsp");
+            }
+
+        } else if (request.getParameter("luchtvaartmaatschappijToevoegen") != null) {
+
+            //   if (request.getParameter("luchtvaartmaatschappijToevoegen").equals("Toevoegen")) {
+            //      String naam = request.getParameter("naam");
+            //      if (daluchtvaartmaatschappij.addLuchtvaartmaatschappij(naam)) {
+            //      } else {
+            //            }
+////
+            //  } else {
+            //   }
+        } else if (request.getParameter("luchtvaartmaatschappijAanpassen") != null) {
+
+        } else if (request.getParameter("luchtvaartmaatschappijVerwijderen") != null) {
+
         }
 
         rd.forward(request, response);
