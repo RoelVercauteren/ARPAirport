@@ -47,7 +47,7 @@
             </p>
             <p>
                 <label>Passwoord:</label>
-                <input type="text" name="Password"/>
+                <input type="password" name="Password"/>
             </p>
             <p>
                 <button name="confirm" class="button"><span>Registreren</span></button> 

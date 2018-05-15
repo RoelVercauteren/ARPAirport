@@ -62,7 +62,7 @@ public class InlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("Login") != null) {
+        if (request.getParameter("login") != null) {
             try {
                 request.setAttribute("servlet", "yes");
                 request.removeAttribute("fout");
@@ -80,9 +80,11 @@ public class InlogServlet extends HttpServlet {
 
                 if (user.isValid()) {
                     session.setAttribute("currentSessionUser", user);
-                    response.sendRedirect("LoggedIn.jsp");
+                    session.setAttribute("soort", user.getSoort());
+                    session.setAttribute("servlet", "y");
+                    response.sendRedirect("/ManageServlet");
                 } else {
-                    session.setAttribute("result", "Uw login en/of paswoord is incorrect!");
+                    request.setAttribute("result", "Uw login en/of paswoord is incorrect!");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
             } catch (Throwable theException) {
@@ -102,6 +104,7 @@ public class InlogServlet extends HttpServlet {
             p.setLand(request.getParameter("Country"));
             p.setLogin(request.getParameter("Login"));
             p.setPaswoord(request.getParameter("Password"));
+            p.setSoort("Passagier");
 
             try {
                 String datestring = request.getParameter("DateOfBirth");
@@ -114,7 +117,7 @@ public class InlogServlet extends HttpServlet {
                 if (dap.insertPersoon(p)) {
                     //Succesvol geregistreerd
                     HttpSession session = request.getSession(true);
-                    session.setAttribute("result", "U bent geregisteerd!");
+                    request.setAttribute("result", "U bent geregisteerd!");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     //Foutmelding
