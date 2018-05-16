@@ -5,16 +5,28 @@
  */
 package hbo5.it.www;
 
+import hbo5.it.www.beans.Bemanningslid;
+import hbo5.it.www.beans.Functie;
+import hbo5.it.www.beans.Hangar;
 import hbo5.it.www.beans.Land;
 import hbo5.it.www.beans.Luchthaven;
 import hbo5.it.www.beans.Luchtvaartmaatschappij;
+import hbo5.it.www.beans.Persoon;
 import hbo5.it.www.beans.Vliegtuig;
 import hbo5.it.www.beans.Vliegtuigtype;
+import hbo5.it.www.beans.Vlucht;
+import hbo5.it.www.beans.Vluchtbemanning;
+import hbo5.it.www.dataaccess.DABemanningslid;
+import hbo5.it.www.dataaccess.DAFunctie;
+import hbo5.it.www.dataaccess.DAHangar;
 import hbo5.it.www.dataaccess.DALand;
 import hbo5.it.www.dataaccess.DALuchthaven;
 import hbo5.it.www.dataaccess.DALuchtvaartmaatschappij;
+import hbo5.it.www.dataaccess.DAPersoon;
 import hbo5.it.www.dataaccess.DAVliegtuig;
 import hbo5.it.www.dataaccess.DAVliegtuigtype;
+import hbo5.it.www.dataaccess.DAVlucht;
+import hbo5.it.www.dataaccess.DAVluchtbemanning;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -25,6 +37,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jboss.weld.bootstrap.api.Environment;
 
 /**
  *
@@ -51,6 +64,12 @@ public class AdminServlet extends HttpServlet {
     private DALuchtvaartmaatschappij daluchtvaartmaatschappij = null;
     private DAVliegtuig davliegtuig = null;
     private DAVliegtuigtype davliegtuigtype = null;
+    private DAHangar dahangar = null;
+    private DABemanningslid dabemanningslid = null;
+    private DAFunctie dafunctie = null;
+    private DAPersoon dapersoon = null;
+    private DAVluchtbemanning davluchtbemanning = null;
+    private DAVlucht davlucht = null;
 
     @Override
     public void init() throws ServletException {
@@ -74,6 +93,24 @@ public class AdminServlet extends HttpServlet {
             }
             if (davliegtuigtype == null) {
                 davliegtuigtype = new DAVliegtuigtype(url, login, paswoord, driver);
+            }
+            if (dahangar == null) {
+                dahangar = new DAHangar(url, login, paswoord, driver);
+            }
+            if (dabemanningslid == null) {
+                dabemanningslid = new DABemanningslid(url, login, paswoord, driver);
+            }
+            if (dafunctie == null) {
+                dafunctie = new DAFunctie(url, login, paswoord, driver);
+            }
+            if (dapersoon == null) {
+                dapersoon = new DAPersoon(url, login, paswoord, driver);
+            }
+            if (davluchtbemanning == null) {
+                davluchtbemanning = new DAVluchtbemanning(url, login, paswoord, driver);
+            }
+            if (davlucht == null) {
+                davlucht = new DAVlucht(url, login, paswoord, driver);
             }
 
         } catch (ClassNotFoundException e) {
@@ -109,10 +146,23 @@ public class AdminServlet extends HttpServlet {
             rd = request.getRequestDispatcher("Admin/vliegtuigen.jsp");
 
         } else if (request.getParameter("knopHangars") != null) {
+
+            ArrayList<Hangar> hangars = dahangar.getHangars();
+            request.setAttribute("hangars", hangars);
+
             rd = request.getRequestDispatcher("Admin/hangars.jsp");
+
         } else if (request.getParameter("knopBemanning") != null) {
+
+            ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
+            request.setAttribute("bemanningsleden", bemanningsleden);
+
             rd = request.getRequestDispatcher("Admin/bemanning.jsp");
         } else if (request.getParameter("knopVluchtbemanning") != null) {
+
+            ArrayList<Vluchtbemanning> vluchtbemanningen = davluchtbemanning.getVluchtbemanningen();
+            request.setAttribute("vluchtbemanningen", vluchtbemanningen);
+
             rd = request.getRequestDispatcher("Admin/vluchtbemanning.jsp");
         } else if (request.getParameter("knopVliegtuigenInHangars") != null) {
             rd = request.getRequestDispatcher("Admin/vliegtuigenInHangars.jsp");
@@ -321,6 +371,187 @@ public class AdminServlet extends HttpServlet {
                 rd = request.getRequestDispatcher("error.jsp");
                 request.setAttribute("fout", "Verwijderen vliegtuig mislukt");
             }
+        } else if (request.getParameter("hangarToevoegen") != null) {
+
+            if (request.getParameter("hangarToevoegen").equals("Toevoegen")) {
+                String naam = request.getParameter("naam");
+
+                if (dahangar.addHangar(naam)) {
+                    ArrayList<Hangar> hangars = dahangar.getHangars();
+                    request.setAttribute("hangars", hangars);
+
+                    rd = request.getRequestDispatcher("Admin/hangars.jsp");
+                } else {
+                    rd = request.getRequestDispatcher("Admin/hangarToevoegen.jsp");
+                }
+            } else {
+                rd = request.getRequestDispatcher("Admin/hangarToevoegen.jsp");
+            }
+
+        } else if (request.getParameter("hangarAanpassen") != null) {
+
+            if (request.getParameter("hangarAanpassen").equals("Aanpassen")) {
+
+                int id = Integer.parseInt(request.getParameter("hangarid"));
+                String naam = request.getParameter("naam");
+
+                if (dahangar.updateHangar(id, naam)) {
+                    ArrayList<Hangar> hangars = dahangar.getHangars();
+                    request.setAttribute("hangars", hangars);
+
+                    rd = request.getRequestDispatcher("Admin/hangars.jsp");
+                } else {
+                    rd = request.getRequestDispatcher("error.jsp");
+                    request.setAttribute("fout", "Wijzigen hangar mislukt");
+                }
+            } else {
+                int id = Integer.parseInt(request.getParameter("hangarAanpassen"));
+
+                Hangar hangar = dahangar.getHangar(id);
+                request.setAttribute("hangar", hangar);
+
+                rd = request.getRequestDispatcher("Admin/hangarAanpassen.jsp");
+            }
+
+        } else if (request.getParameter("hangarVerwijderen") != null) {
+
+            int id = Integer.parseInt(request.getParameter("hangarVerwijderen"));
+
+            if (dahangar.deleteHangar(id)) {
+                ArrayList<Hangar> hangars = dahangar.getHangars();
+                request.setAttribute("hangars", hangars);
+
+                rd = request.getRequestDispatcher("Admin/hangars.jsp");
+            } else {
+                rd = request.getRequestDispatcher("error.jsp");
+                request.setAttribute("fout", "Verwijderen hangar mislukt");
+            }
+        } else if (request.getParameter("bemanningslidToevoegen") != null) {
+
+            if (request.getParameter("bemanningslidToevoegen").equals("Toevoegen")) {
+
+                int functieid = Integer.parseInt(request.getParameter("selectFunctie"));
+                int persoonid = Integer.parseInt(request.getParameter("selectPersoon"));
+                int luchtvaartmaatschappijid = Integer.parseInt(request.getParameter("selectLuchtvaartmaatschappij"));
+
+                if (dabemanningslid.addBemanningslid(functieid, persoonid, luchtvaartmaatschappijid)) {
+                    ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
+                    request.setAttribute("bemanningsleden", bemanningsleden);
+
+                    rd = request.getRequestDispatcher("Admin/bemanning.jsp");
+                } else {
+                    rd = request.getRequestDispatcher("Admin/bemanningslidToevoegen.jsp");
+
+                    ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = daluchtvaartmaatschappij.getLuchtvaartmaatschappijen();
+                    request.setAttribute("luchtvaartmaatschappijen", luchtvaartmaatschappijen);
+
+                    ArrayList<Functie> functies = dafunctie.getFuncties();
+                    request.setAttribute("functies", functies);
+
+                    ArrayList<Persoon> personen = dapersoon.getPersonen();
+                    request.setAttribute("personen", personen);
+                }
+
+            } else {
+                rd = request.getRequestDispatcher("Admin/bemanningslidToevoegen.jsp");
+
+                ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = daluchtvaartmaatschappij.getLuchtvaartmaatschappijen();
+                request.setAttribute("luchtvaartmaatschappijen", luchtvaartmaatschappijen);
+
+                ArrayList<Functie> functies = dafunctie.getFuncties();
+                request.setAttribute("functies", functies);
+
+                ArrayList<Persoon> personen = dapersoon.getPersonen();
+                request.setAttribute("personen", personen);
+            }
+
+        } else if (request.getParameter("bemanningslidAanpassen") != null) {
+
+            if (request.getParameter("bemanningslidAanpassen").equals("Aanpassen")) {
+
+                int id = Integer.parseInt(request.getParameter("bemanningslidid"));
+
+                int luchtvaartmaatschappijid = Integer.parseInt(request.getParameter("selectLuchtvaartmaatschappij"));
+                int functieid = Integer.parseInt(request.getParameter("selectFunctie"));
+                int persoonid = Integer.parseInt(request.getParameter("selectPersoon"));
+
+                if (dabemanningslid.updateBemanningslid(id, functieid, persoonid, luchtvaartmaatschappijid)) {
+                    ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
+                    request.setAttribute("bemanningsleden", bemanningsleden);
+
+                    rd = request.getRequestDispatcher("Admin/bemanning.jsp");
+                } else {
+                    rd = request.getRequestDispatcher("error.jsp");
+                    request.setAttribute("fout", "Wijzigen bemanningslid mislukt");
+                }
+            } else {
+                int id = Integer.parseInt(request.getParameter("bemanningslidAanpassen"));
+
+                Bemanningslid bemanningslid = dabemanningslid.getBemanningslid(id);
+                request.setAttribute("bemanningslid", bemanningslid);
+
+                ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = daluchtvaartmaatschappij.getLuchtvaartmaatschappijen();
+                request.setAttribute("luchtvaartmaatschappijen", luchtvaartmaatschappijen);
+
+                ArrayList<Functie> functies = dafunctie.getFuncties();
+                request.setAttribute("functies", functies);
+
+                ArrayList<Persoon> personen = dapersoon.getPersonen();
+                request.setAttribute("personen", personen);
+
+                rd = request.getRequestDispatcher("Admin/bemanningslidAanpassen.jsp");
+            }
+
+        } else if (request.getParameter("bemanningslidVerwijderen") != null) {
+
+            int id = Integer.parseInt(request.getParameter("bemanningslidVerwijderen"));
+
+            if (dabemanningslid.deleteBemanningslid(id)) {
+                ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
+                request.setAttribute("bemanningsleden", bemanningsleden);
+
+                rd = request.getRequestDispatcher("Admin/bemanning.jsp");
+            } else {
+                rd = request.getRequestDispatcher("error.jsp");
+                request.setAttribute("fout", "Verwijderen bemanningslid mislukt."
+                        + System.lineSeparator()
+                        + "Het bemanningslid is nog toegewezen aan een vlucht");
+            }
+        } else if (request.getParameter("vluchtbemanningToevoegen") != null) {
+
+            if (request.getParameter("vluchtbemanningToevoegen").equals("Toevoegen")) {
+
+//                int vliegtuigtypeid = Integer.parseInt(request.getParameter("selectVliegtuigtype"));
+//                int luchtvaartmaatschappijid = Integer.parseInt(request.getParameter("selectLuchtvaartmaatschappij"));
+//
+//                if (davliegtuig.addVliegtuig(vliegtuigtypeid, luchtvaartmaatschappijid)) {
+//                    ArrayList<Vliegtuig> vliegtuigen = davliegtuig.getVliegtuigen();
+//                    request.setAttribute("vliegtuigen", vliegtuigen);
+//
+//                    rd = request.getRequestDispatcher("Admin/vliegtuigen.jsp");
+//                } else {
+//                    rd = request.getRequestDispatcher("Admin/vliegtuigToevoegen.jsp");
+//
+//                    ArrayList<Vliegtuigtype> vliegtuigtypes = davliegtuigtype.getVliegtuigtypes();
+//                    request.setAttribute("vliegtuigtypes", vliegtuigtypes);
+//
+//                    ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = daluchtvaartmaatschappij.getLuchtvaartmaatschappijen();
+//                    request.setAttribute("luchtvaartmaatschappijen", luchtvaartmaatschappijen);
+//                }
+            } else {
+                rd = request.getRequestDispatcher("Admin/vluchtbemanningToevoegen.jsp");
+
+                ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                request.setAttribute("vluchten", vluchten);
+
+                ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
+                request.setAttribute("bemanningsleden", bemanningsleden);
+            }
+
+        } else if (request.getParameter("vluchtbemanningAanpassen") != null) {
+
+        } else if (request.getParameter("vluchtbemanningVerwijderen") != null) {
+
         }
 
         rd.forward(request, response);
