@@ -113,7 +113,7 @@ public class ManageServlet extends HttpServlet {
             
             
             try {
-                ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                ArrayList<Vlucht> vluchten = davlucht.getVlucht();
                 
                 rd = request.getRequestDispatcher("vluchten.jsp");
                 request.setAttribute("vluchten", vluchten);

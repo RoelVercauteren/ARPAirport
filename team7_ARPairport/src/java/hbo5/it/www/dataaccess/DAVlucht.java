@@ -36,7 +36,7 @@ public class DAVlucht {
         this.password = password;
     }
 
-    public ArrayList<Vlucht> getVluchten() throws SQLException {
+    public ArrayList<Vlucht> getVlucht() throws SQLException {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
