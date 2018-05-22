@@ -59,18 +59,69 @@ public class DAPersoon {
         }
         return persoon;
     }
-    
-    public boolean insertPersoon(Persoon newperson){
+
+    public ArrayList<Persoon> getPersonen() {
+        ArrayList<Persoon> personen = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from persoon");) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Persoon persoon = new Persoon();
+
+                persoon.setId(resultSet.getInt("id"));
+                persoon.setVoornaam(resultSet.getString("voornaam"));
+                persoon.setFamilienaam(resultSet.getString("familienaam"));
+                persoon.setStraat(resultSet.getString("straat"));
+                persoon.setHuisnr(resultSet.getString("huisnr"));
+                persoon.setPostcode(resultSet.getString("postcode"));
+                persoon.setWoonplaats(resultSet.getString("woonplaats"));
+                persoon.setLand(resultSet.getString("land"));
+                persoon.setGeboortedatum(resultSet.getDate("geboortedatum"));
+                persoon.setLogin(resultSet.getString("login"));
+                persoon.setPaswoord(resultSet.getString("paswoord"));
+                persoon.setSoort(resultSet.getString("soort"));
+
+                personen.add(persoon);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return personen;
+    }
+
+    public boolean insertPersoon(Persoon newperson) {
         boolean resultaat = true;
-        
-        try
-        {
+
+        try {
             Connection connection = DriverManager.getConnection(url, login, password);
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO persoon values (persoon_seq.nextval, ?)");
-            statement.setObject(1, newperson);
+            String insertTableSQL = "INSERT INTO PERSOON"
+                    + "(ID, Voornaam, Familienaam, Straat, Huisnr, Postcode, Woonplaats, Land, Geboortedatum, Login, Paswoord, Soort) VALUES"
+                    + "(?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(insertTableSQL);
+            Statement searchstatement = connection.createStatement();
+            ResultSet result = searchstatement.executeQuery("SELECT COUNT (*) AS total FROM PERSOON");
+            while (result.next()) {
+                int aantal = result.getInt("total");
+                statement.setInt(1, aantal + 1);
+            }
+            statement.setString(2, newperson.getVoornaam());
+            statement.setString(3, newperson.getFamilienaam());
+            statement.setString(4, newperson.getStraat());
+            statement.setString(5, newperson.getHuisnr());
+            statement.setString(6, newperson.getPostcode());
+            statement.setString(7, newperson.getWoonplaats());
+            statement.setString(8, newperson.getLand());
+            statement.setDate(9, newperson.getGeboortedatum());
+            statement.setString(10, newperson.getLogin());
+            statement.setString(11, newperson.getPaswoord());
+            statement.setString(12, "P");
             statement.executeUpdate();
-        } catch(Exception e){
-            resultaat=false;
+        } catch (Exception e) {
+            resultaat = false;
             e.printStackTrace();
         }
         return resultaat;
@@ -109,7 +160,8 @@ public class DAPersoon {
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (Exception ex) {}
+                } catch (Exception ex) {
+                }
                 stmt = null;
             }
         }
