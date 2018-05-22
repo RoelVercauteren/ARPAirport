@@ -115,15 +115,17 @@ public class DAPersoon {
         }
         return user;
     }
-     public ArrayList<Vlucht> getVluchtenByPersoon(Persoon id) {
+     public ArrayList<Vlucht> getVluchtenByPersoon(String persoonId) {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
        
       
         try (Connection connection = DriverManager.getConnection(url, login, password);
                 PreparedStatement statement = connection.prepareStatement("select * from  persoon join passagier"
                         + " on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht "
-                        + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID where PERSOON.ID=?"
+                        + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID where PERSOON.ID=?"                      
                 );) {
+            statement.setString(1, persoonId);
+            
             ResultSet resultSet = statement.executeQuery();
 
         } catch (Exception e) {

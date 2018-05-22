@@ -36,14 +36,14 @@ public class DAVlucht {
         this.password = password;
     }
 
-    public Vlucht getVlucht() throws SQLException {
-        Vlucht vlucht = null;
+    public ArrayList<Vlucht> getVluchten() throws SQLException {
+        ArrayList<Vlucht> vluchten = new ArrayList<>();
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM vlucht");) {
-            if (resultSet.next()) {
-                vlucht = new Vlucht();
+            while (resultSet.next()) {
+                Vlucht vlucht = new Vlucht();
                 vlucht.setId(resultSet.getInt("id"));
                 vlucht.setCode(resultSet.getString("code"));
                 vlucht.setVertrektijd(resultSet.getDate("vertrektijd"));
@@ -51,12 +51,12 @@ public class DAVlucht {
                 vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
                 vlucht.setVertrekluchthaven_id(resultSet.getInt("vertrekluchthaven_id"));
                 vlucht.setAankomstluchthaven_id(resultSet.getInt("aankomstluchthaven_id"));
-
+                vluchten.add(vlucht);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return vlucht;
+        return vluchten;
     }
 
     public ArrayList<Vlucht> getBinnenkomendeVluchten(int luchthavenId) {

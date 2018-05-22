@@ -9,10 +9,14 @@ import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import hbo5.it.www.beans.Persoon;
 import hbo5.it.www.beans.Vlucht;
 import hbo5.it.www.dataaccess.DAPassagier;
+import hbo5.it.www.dataaccess.DAPersoon;
 import hbo5.it.www.dataaccess.DAVlucht;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -32,9 +37,19 @@ import javax.servlet.http.HttpSession;
     , @WebInitParam(name = "driver", value = "oracle.jdbc.driver.OracleDriver")})
 public class ManageServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     private DAVlucht davlucht = null;
-    private DAPassagier dapassagier = null;
-
+    private DAPersoon dapersoon = null;
+    
+   
     @Override
     public void init() throws ServletException {
         try {
@@ -46,8 +61,8 @@ public class ManageServlet extends HttpServlet {
             if (davlucht == null) {
                 davlucht = new DAVlucht(url, login, paswoord, driver);
             }
-            if (dapassagier == null) {
-                dapassagier = new DAPassagier(url, login, paswoord, driver);
+            if (dapersoon == null) {
+                dapersoon = new DAPersoon(url, login, paswoord, driver);
             }
 
         } catch (ClassNotFoundException e) {
@@ -58,13 +73,18 @@ public class ManageServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        Persoon p = new Persoon();
         HttpSession session = request.getSession();
-        String soort = (String) session.getAttribute("soort");
-        if (soort == "P") {
-           
-        } else if (soort== "B") {
+        p=(Persoon) session.getAttribute("currentSessionUser");
+
+        if (p.getSoort().equals("P")) {
+            response.sendRedirect("WebPages/welcomePassagier.jsp");
+
+        } else if (p.getSoort().equals("B")) {
 
         }
+
         /**
          * Processes requests for both HTTP <code>GET</code> and
          * <code>POST</code> methods.
@@ -79,34 +99,44 @@ public class ManageServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        RequestDispatcher rd = null;
+         Persoon p = new Persoon();
+        HttpSession session = request.getSession();
+        p=(Persoon) session.getAttribute("currentSessionUser");
+        if (request.getParameter("knopGeboekte") != null) {
+            String stringId=String.valueOf(p.getId());
+            ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
+            request.setAttribute("geboekteVluchten", geboektevluchten);
+            response.sendRedirect("Passagier/VluchtenVanPassagier.jsp");
+        }
+        else if (request.getParameter("knopAlleVluchten")!=null) {
+            
+            
+            try {
+                ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                
+                rd = request.getRequestDispatcher("vluchten.jsp");
+                request.setAttribute("vluchten", vluchten);
+                response.sendRedirect("WebPages/vluchten.jsp");
+            } catch (SQLException ex) {
+                Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
-}
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+ 
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -117,7 +147,7 @@ public class ManageServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
