@@ -5,7 +5,6 @@
  */
 package hbo5.it.www.dataaccess;
 
-import com.oracle.wls.shaded.org.apache.bcel.generic.AALOAD;
 import hbo5.it.www.beans.Land;
 import hbo5.it.www.beans.Luchthaven;
 import java.sql.Connection;
