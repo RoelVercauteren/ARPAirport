@@ -82,7 +82,7 @@ public class ManageServlet extends HttpServlet {
             response.sendRedirect("WelcomePassagier.jsp");
 
         } else if (p.getSoort().equals("B")) {
-
+            response.sendRedirect("bemanningslid.jsp");
         }
 
         /**

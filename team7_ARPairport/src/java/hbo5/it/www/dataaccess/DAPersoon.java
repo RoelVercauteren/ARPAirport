@@ -32,12 +32,12 @@ public class DAPersoon {
         this.password = password;
     }
 
-    public Persoon getPersoon() throws SQLException {
+    public Persoon getPersoon(String username) throws SQLException {
         Persoon persoon = null;
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
                 Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM persoon");) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM persoon WHERE Login = '" + username + "'");) {
             if (resultSet.next()) {
                 persoon = new Persoon();
                 persoon.setId(resultSet.getInt("id"));

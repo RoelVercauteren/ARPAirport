@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -79,10 +80,19 @@ public class InlogServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
 
                 if (user.isValid()) {
+                    user = dap.getPersoon(user.getLogin());
                     session.setAttribute("currentSessionUser", user);
                     session.setAttribute("soort", user.getSoort());
                     session.setAttribute("servlet", "y");
-                    response.sendRedirect("/ManageServlet");
+                    
+                    switch(user.getSoort()){
+                        case "P": response.sendRedirect("WelcomePassagier.jsp");
+                            break;
+                        case "B": response.sendRedirect("bemanningslid.jsp");
+                            break;
+                        case "A": 
+                            break;
+                    }
                 } else {
                     request.setAttribute("result", "Uw login en/of paswoord is incorrect!");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
