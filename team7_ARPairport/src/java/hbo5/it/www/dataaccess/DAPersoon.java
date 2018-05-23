@@ -6,12 +6,14 @@
 package hbo5.it.www.dataaccess;
 
 import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.beans.Vlucht;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.resource.spi.ConnectionManager;
 
 /**
@@ -56,6 +58,39 @@ public class DAPersoon {
             e.printStackTrace();
         }
         return persoon;
+    }
+
+    public ArrayList<Persoon> getPersonen() {
+        ArrayList<Persoon> personen = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from persoon");) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Persoon persoon = new Persoon();
+
+                persoon.setId(resultSet.getInt("id"));
+                persoon.setVoornaam(resultSet.getString("voornaam"));
+                persoon.setFamilienaam(resultSet.getString("familienaam"));
+                persoon.setStraat(resultSet.getString("straat"));
+                persoon.setHuisnr(resultSet.getString("huisnr"));
+                persoon.setPostcode(resultSet.getString("postcode"));
+                persoon.setWoonplaats(resultSet.getString("woonplaats"));
+                persoon.setLand(resultSet.getString("land"));
+                persoon.setGeboortedatum(resultSet.getDate("geboortedatum"));
+                persoon.setLogin(resultSet.getString("login"));
+                persoon.setPaswoord(resultSet.getString("paswoord"));
+                persoon.setSoort(resultSet.getString("soort"));
+
+                personen.add(persoon);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return personen;
     }
 
     public boolean insertPersoon(Persoon newperson) {
@@ -131,5 +166,24 @@ public class DAPersoon {
             }
         }
         return user;
+    }
+     public ArrayList<Vlucht> getVluchtenByPersoon(String persoonId) {
+        ArrayList<Vlucht> vluchten = new ArrayList<>();
+       
+      
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from  persoon join passagier"
+                        + " on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht "
+                        + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID where PERSOON.ID=?"                      
+                );) {
+            statement.setString(1, persoonId);
+            
+            ResultSet resultSet = statement.executeQuery();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return vluchten;
     }
 }

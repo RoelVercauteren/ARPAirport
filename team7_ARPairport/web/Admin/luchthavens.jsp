@@ -40,6 +40,7 @@
                 <th>Stad</th>
                 <th>Land</th>
                 <th></th>
+                <th></th>
             </tr>
 
             <% for (Luchthaven luchthaven : luchthavens) {%>
@@ -49,11 +50,6 @@
                 <td><%=luchthaven.getStad()%></td>
                 <td><%=luchthaven.getLand().getLandnaam()%></td>
                 <td>
-                    <%--   <form action="AdminServlet">
-                               <input type="hidden" name="luchthavenid" value="<%=luchthaven.getId()%>" /> 
-                           <input type="submit" value="Aanpassen" name="luchthavenAanpassen" id="<%=luchthaven.getId()%>"/>
-                       </form>
-                    --%>
                     <a href ="AdminServlet?luchthavenAanpassen=<%=luchthaven.getId()%>">
                         <input type="submit" name="luchthavenAanpassen" value="Aanpassen">
                     </a>

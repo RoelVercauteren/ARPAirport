@@ -23,6 +23,7 @@ public class Vlucht {
     private Luchthaven vertrekluchthaven;
     private int aankomstluchthaven_id;
     private Luchthaven aankomstluchthaven;
+    
 
     public int getId() {
         return id;

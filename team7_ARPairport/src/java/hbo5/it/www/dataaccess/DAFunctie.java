@@ -8,9 +8,11 @@ package hbo5.it.www.dataaccess;
 import hbo5.it.www.beans.Functie;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -44,5 +46,31 @@ public class DAFunctie {
             e.printStackTrace();
         }
         return functie;
+    }
+
+    public ArrayList<Functie> getFuncties() {
+
+        ArrayList<Functie> functies = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from functie");) {
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                Functie functie = new Functie();
+
+                functie.setId(resultSet.getInt("id"));
+                functie.setFunctienaam(resultSet.getString("functienaam"));
+                functie.setOmschrijving(resultSet.getString("omschrijving"));
+
+                functies.add(functie);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return functies;
     }
 }
