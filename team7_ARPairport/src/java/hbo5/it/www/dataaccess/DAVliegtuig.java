@@ -56,7 +56,7 @@ public class DAVliegtuig {
 
         try (
                 Connection connection = DriverManager.getConnection(url, login, password);
-                PreparedStatement statement = connection.prepareStatement("select * from vliegtuig where id=?");) {
+                PreparedStatement statement = connection.prepareStatement("select * from vliegtuig join VLIEGTUIGTYPE on VLIEGTUIGTYPE_ID=VLIEGTUIGTYPE.ID join LUCHTVAARTMAATSCHAPPIJ on LUCHTVAARTMAATSCHAPPIJ_ID=LUCHTVAARTMAATSCHAPPIJ.ID where vliegtuig.id=?");) {
 
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
