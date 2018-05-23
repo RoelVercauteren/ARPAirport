@@ -17,7 +17,7 @@
              <%
             Persoon persoon = (Persoon) request.getAttribute("persoon");
         %>
-            <h2>Welcom <%=persoon.getVoornaam()%></h2>
+            <h2>Welcome <%=persoon.getVoornaam()%></h2>
             <form action="ManageServlet">
                 <div class="divinform">
                     <h2>Wat wil je bekijken?</h2>

@@ -79,7 +79,7 @@ public class ManageServlet extends HttpServlet {
         p=(Persoon) session.getAttribute("currentSessionUser");
 
         if (p.getSoort().equals("P")) {
-            response.sendRedirect("WebPages/welcomePassagier.jsp");
+            response.sendRedirect("WelcomePassagier.jsp");
 
         } else if (p.getSoort().equals("B")) {
 
