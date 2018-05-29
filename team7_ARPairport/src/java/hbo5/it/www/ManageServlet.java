@@ -79,7 +79,8 @@ public class ManageServlet extends HttpServlet {
         p=(Persoon) session.getAttribute("currentSessionUser");
 
         if (p.getSoort().equals("P")) {
-            response.sendRedirect("WelcomePassagier.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePassagier.jsp");
+            dispatcher.forward(request, response);
 
         } else if (p.getSoort().equals("B")) {
             response.sendRedirect("bemanningslid.jsp");
@@ -100,24 +101,25 @@ public class ManageServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         RequestDispatcher rd = null;
-         Persoon p = new Persoon();
+        Persoon p = new Persoon();
         HttpSession session = request.getSession();
         p=(Persoon) session.getAttribute("currentSessionUser");
+        
         if (request.getParameter("knopGeboekte") != null) {
             String stringId=String.valueOf(p.getId());
             ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
-            request.setAttribute("geboekteVluchten", geboektevluchten);
+            session.setAttribute("geboekteVluchten", geboektevluchten);
             response.sendRedirect("Passagier/VluchtenVanPassagier.jsp");
         }
         else if (request.getParameter("knopAlleVluchten")!=null) {
             
-            
             try {
                 ArrayList<Vlucht> vluchten = davlucht.getVlucht();
                 
+                session.setAttribute("vluchten", vluchten);
                 rd = request.getRequestDispatcher("vluchten.jsp");
-                request.setAttribute("vluchten", vluchten);
-                response.sendRedirect("WebPages/vluchten.jsp");
+                rd.forward(request, response);
+                //response.sendRedirect("WebPages/vluchten.jsp");
             } catch (SQLException ex) {
                 Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
