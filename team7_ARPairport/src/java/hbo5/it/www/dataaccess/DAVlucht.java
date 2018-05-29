@@ -430,8 +430,60 @@ public class DAVlucht {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return vluchten;
-
     }
+
+    public ArrayList<Vlucht> getVluchtenPerLuchthaven(int luchthavenid) {
+        ArrayList<Vlucht> vluchten = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from vlucht  join  vliegtuig on VLIEGTUIG_ID=VLIEGTUIG.ID join LUCHTHAVEN on AANKOMSTLUCHTHAVEN_ID=LUCHTHAVEN.ID join LUCHTHAVEN on VERTREKLUCHTHAVEN_ID=LUCHTHAVEN.ID join LUCHTVAARTMAATSCHAPPIJ on VLIEGTUIG.LUCHTVAARTMAATSCHAPPIJ_ID=LUCHTVAARTMAATSCHAPPIJ.ID where (VERTREKLUCHTHAVEN_ID=? or AANKOMSTLUCHTHAVEN_ID=?)");) {
+            statement.setInt(1, luchthavenid);
+            statement.setInt(2, luchthavenid);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Vlucht vlucht = new Vlucht();
+
+                vlucht.setId(resultSet.getInt("id"));
+                vlucht.setCode(resultSet.getString("code"));
+                vlucht.setVertrektijd(resultSet.getDate("vertrektijd"));
+                vlucht.setAankomsttijd(resultSet.getDate("aankomsttijd"));
+                vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
+
+                Vliegtuig vliegtuig = new Vliegtuig();
+                vliegtuig.setId(resultSet.getInt("vliegtuig_id"));
+                vliegtuig.setLuchtvaartmaatschappij_id(resultSet.getInt("luchtvaartmaatschappij_id"));
+                Luchtvaartmaatschappij luchtvmp = new Luchtvaartmaatschappij();
+                luchtvmp.setId(resultSet.getInt("luchtvaartmaatschappij_id"));
+                luchtvmp.setLuchtvaartnaam(resultSet.getString("luchtvaartnaam"));
+                vliegtuig.setLuchtvaartmaatschappij(luchtvmp);
+                vliegtuig.setVliegtuigtype_id(resultSet.getInt("vliegtuigtype_id"));
+                vlucht.setVliegtuig(vliegtuig);
+
+                vlucht.setVertrekluchthaven_id(resultSet.getInt("vertrekluchthaven_id"));
+
+                Luchthaven vertrekhaven = new Luchthaven();
+                vertrekhaven.setId(resultSet.getInt(15));
+                vertrekhaven.setLuchthavennaam(resultSet.getString(16));
+                vertrekhaven.setStad(resultSet.getString(17));
+                vertrekhaven.setLand_id(resultSet.getInt(18));
+                vlucht.setVertrekluchthaven(vertrekhaven);
+
+                vlucht.setAankomstluchthaven_id(resultSet.getInt("aankomstluchthaven_id"));
+
+                Luchthaven aankomsthaven = new Luchthaven();
+                aankomsthaven.setId(resultSet.getInt(11));
+                aankomsthaven.setLuchthavennaam(resultSet.getString(12));
+                aankomsthaven.setStad(resultSet.getString(13));
+                aankomsthaven.setLand_id(resultSet.getInt(14));
+                vlucht.setAankomstluchthaven(aankomsthaven);
+
+                vluchten.add(vlucht);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vluchten;
+    }
+
 }

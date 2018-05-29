@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -25,7 +27,6 @@ import javax.servlet.http.HttpSessionEvent;
 public class DAPassagier {
 
     private final String url, login, password;
-    
 
     public DAPassagier(String url, String login, String password, String driver)
             throws ClassNotFoundException {
@@ -57,5 +58,37 @@ public class DAPassagier {
         }
         return passagier;
     }
-   
+
+    public int getGemiddeldeLeeftijdPerBestemming(int bestemmingid) {
+        ArrayList<Passagier> passagiers = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from PASSAGIER join VLUCHT on VLUCHT.ID=VLUCHT_ID join PERSOON on PERSOON_ID=PERSOON.ID where VLUCHT.AANKOMSTLUCHTHAVEN_ID=?");) {
+            statement.setInt(1, bestemmingid);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Passagier passagier = new Passagier();
+                passagier.setId(resultSet.getInt("id"));
+
+                Persoon persoon = new Persoon();
+                persoon.setGeboortedatum(resultSet.getDate("geboortedatum"));
+                passagier.setPersoon(persoon);
+
+                passagiers.add(passagier);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int totaalLeeftijd = 0;
+        for (Passagier passagier : passagiers) {
+            totaalLeeftijd += Period.between(passagier.getPersoon().getGeboortedatum().toLocalDate(), LocalDate.now()).getYears();
+        }
+        if (passagiers.size() != 0) {
+            return totaalLeeftijd / passagiers.size();
+        }
+        return -1;
+
+    }
+
 }
