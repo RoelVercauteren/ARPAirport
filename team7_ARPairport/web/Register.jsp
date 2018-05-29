@@ -50,7 +50,7 @@
                 <input type="password" name="Password"/>
             </p>
             <p>
-                <button name="confirm" class="button"><span>Registreren</span></button> 
+                <button name="confirm" class="button"><span>Registreren</span></button>
                 <label name="lblResult"/>
             </p>
         </form>
