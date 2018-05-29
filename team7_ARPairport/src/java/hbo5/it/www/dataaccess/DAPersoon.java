@@ -179,6 +179,16 @@ public class DAPersoon {
             statement.setString(1, persoonId);
             
             ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next())   {
+                Vlucht vlucht=new Vlucht();
+                vlucht.setId(resultSet.getInt("id"));
+                vlucht.setCode(resultSet.getString("code"));
+                vlucht.setVertrektijd(resultSet.getDate("vertrektijd"));
+                vlucht.setAankomsttijd(resultSet.getDate("aankomsttijd"));
+                vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
+                vluchten.add(vlucht);
+            }     
+                    
 
         } catch (Exception e) {
             e.printStackTrace();

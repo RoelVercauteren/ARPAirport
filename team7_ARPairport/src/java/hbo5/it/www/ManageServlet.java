@@ -106,6 +106,7 @@ public class ManageServlet extends HttpServlet {
         if (request.getParameter("knopGeboekte") != null) {
             String stringId=String.valueOf(p.getId());
             ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
+            rd=request.getRequestDispatcher("VluchtenVanPassagier.jsp");
             request.setAttribute("geboekteVluchten", geboektevluchten);
             response.sendRedirect("Passagier/VluchtenVanPassagier.jsp");
         }
@@ -123,6 +124,7 @@ public class ManageServlet extends HttpServlet {
             }
             
         }
+        rd.forward(request, response);
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
