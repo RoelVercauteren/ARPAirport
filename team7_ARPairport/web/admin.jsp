@@ -30,7 +30,8 @@
                     <input type="submit" value="Beheren bemanning" name="knopBemanning"/>
                     <input type="submit" value="Beheren vluchtbemanning" name="knopVluchtbemanning"/>
                     <input type="submit" value="Beheren vliegtuigen in hangars" name="knopVliegtuigenInHangars"/>
-
+                    <hr>
+                    <input type="submit" value="Statistieken opvragen" name="knopStatistiekenOpvragen"/>
                 </div>
             </form>
         </div>

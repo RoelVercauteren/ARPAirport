@@ -28,7 +28,7 @@
 
     </head>
     <body>
-        <h1>Vluchten</h1>
+        <h1>Uw vluchten</h1>
 
         <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("vluchten"); %>
         <% vluchten.sort(new VluchtComparator()); %>
@@ -42,6 +42,7 @@
                 <th>Aankomsttijd</th>
                 <th>Luchtvaartmaatschappij</th>
                 <th>Meer Details</th>
+                <th></th>
             </tr>
 
             <% for (Vlucht vlucht : vluchten) {%>
@@ -58,6 +59,11 @@
                         <input type="submit" value="Toon Details" name="toonMeerDetails" />
                     </form>
                 </td>
+                <td>
+                    <form action="ManageServlet">
+                        <input type="hidden" name="vluchtid" value="<%=vlucht.getId()%>" />  
+                        <input type="submit" value="Annuleren" name="annuleren" />
+                    </form></td>
             </tr>
             <% }%>
         </table>

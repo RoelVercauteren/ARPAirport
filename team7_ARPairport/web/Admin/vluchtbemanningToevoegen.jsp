@@ -4,6 +4,7 @@
     Author     : roel_
 --%>
 
+<%@page import="hbo5.it.www.beans.Vlucht"%>
 <%@page import="hbo5.it.www.beans.Bemanningslid"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -29,6 +30,7 @@
                         <input type="text" id="taak" name="taak"></input>
                     </p>    
 
+
                     <p>
                         <label for="selectBemanningslid">Bemanningslid: </label>
 
@@ -41,9 +43,19 @@
                         </select>
                     </p>  
 
-                    <%-- 
-                    todo: selectVlucht
-                    --%>
+
+                    <p>
+                        <label for="selectVlucht">Vlucht: </label>
+
+                        <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("vluchten"); %>
+
+                        <select name="selectVlucht">
+                            <% for (Vlucht vlucht : vluchten) {%>
+                            <option name="selectVlucht" value="<%=vlucht.getId()%>"><%=vlucht.getCode()%>: <%=vlucht.getVertrekluchthaven().getLuchthavennaam() %> - <%=vlucht.getAankomstluchthaven().getLuchthavennaam() %></option>
+                            <% }%>    
+                        </select>
+                    </p>  
+
 
                     <input type="submit" value="Toevoegen" name="vluchtbemanningToevoegen" />
 
