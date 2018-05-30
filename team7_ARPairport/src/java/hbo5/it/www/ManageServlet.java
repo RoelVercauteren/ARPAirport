@@ -108,7 +108,9 @@ public class ManageServlet extends HttpServlet {
         if (request.getParameter("knopGeboekte") != null) {
             String stringId=String.valueOf(p.getId());
             ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
-            session.setAttribute("geboekteVluchten", geboektevluchten);
+            rd=request.getRequestDispatcher("VluchtenVanPassagier.jsp");
+            rd.forward(request, response);
+            request.setAttribute("geboekteVluchten", geboektevluchten);
             response.sendRedirect("Passagier/VluchtenVanPassagier.jsp");
         }
         else if (request.getParameter("knopAlleVluchten")!=null) {
@@ -119,7 +121,6 @@ public class ManageServlet extends HttpServlet {
                 session.setAttribute("vluchten", vluchten);
                 rd = request.getRequestDispatcher("vluchten.jsp");
                 rd.forward(request, response);
-                //response.sendRedirect("WebPages/vluchten.jsp");
             } catch (SQLException ex) {
                 Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
             }

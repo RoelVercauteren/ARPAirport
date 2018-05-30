@@ -138,9 +138,10 @@ public class InlogServlet extends HttpServlet {
                 }
 
             } catch (Throwable theException) {
+                request.setAttribute("error", "U dient alle gegevens in te vullen.");
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
                 System.out.println(theException);
             }
-
         }
     }
 
