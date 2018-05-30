@@ -50,7 +50,7 @@ public class DAPersoon {
                 persoon.setLand(resultSet.getString("land"));
                 persoon.setGeboortedatum(resultSet.getDate("geboortedatum"));
                 persoon.setLogin(resultSet.getString("login"));
-                persoon.setPaswoord(resultSet.getString("pasword"));
+                persoon.setPaswoord(resultSet.getString("paswoord"));
                 persoon.setSoort(resultSet.getString("soort"));
 
             }

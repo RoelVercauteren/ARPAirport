@@ -85,14 +85,18 @@ public class InlogServlet extends HttpServlet {
                     session.setAttribute("soort", user.getSoort());
                     session.setAttribute("servlet", "y");
                     
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/ManageServlet");
+                    dispatcher.forward(request, response);
+                    /*
                     switch(user.getSoort()){
-                        case "P": response.sendRedirect("WelcomePassagier.jsp");
+                        case "P": request.getRequestDispatcher("WelcomePassagier.jsp").forward(request, response);
                             break;
-                        case "B": response.sendRedirect("bemanningslid.jsp");
+                        case "B": request.getRequestDispatcher("bemanningslid.jsp").forward(request, response);
                             break;
                         case "A": 
                             break;
-                    }
+                    }*/
+                    
                 } else {
                     request.setAttribute("result", "Uw login en/of paswoord is incorrect!");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -134,9 +138,10 @@ public class InlogServlet extends HttpServlet {
                 }
 
             } catch (Throwable theException) {
+                request.setAttribute("error", "U dient alle gegevens in te vullen.");
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
                 System.out.println(theException);
             }
-
         }
     }
 

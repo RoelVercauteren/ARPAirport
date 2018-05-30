@@ -15,18 +15,19 @@
     <body>
         <div class="maincontainer">
              <%
-            Persoon persoon = (Persoon) request.getAttribute("persoon");
+            Persoon persoon = (Persoon) session.getAttribute("currentSessionUser");
         %>
+        <p>
             <h2>Welcome <%=persoon.getVoornaam()%></h2>
+            <input type="submit" value="logout" name="btnLogout"></button>
+        </p>
             <form action="ManageServlet">
                 <div class="divinform">
                     <h2>Wat wil je bekijken?</h2>
-                    <input type="submit" value="Geboekte vlcuhten" name="knopGeboekte"/>
+                    <input type="submit" value="Geboekte vluchten" name="knopGeboekte"/>
                     <input type="submit" value="Alle vluchten" name="knopAlleVluchten"/>
                 </div>
             </form>
-            
-            
         </div>
     </body>
 </html>
