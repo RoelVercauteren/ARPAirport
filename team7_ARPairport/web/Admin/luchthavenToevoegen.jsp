@@ -46,6 +46,9 @@
                     <input type="submit" value="Toevoegen" name="luchthavenToevoegen" />
                 </div>
             </form>
+
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
         </div>
     </body>
 </html>

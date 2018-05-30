@@ -26,8 +26,8 @@
                         Luchtvaartmaatschappij luchtvaartmaatschappij = (Luchtvaartmaatschappij) request.getAttribute("luchtvaartmaatschappij");
                     %>
 
-                      <input type="hidden" name="luchtvaartmaatschappijid" value="<%=luchtvaartmaatschappij.getId()%>">
-                    
+                    <input type="hidden" name="luchtvaartmaatschappijid" value="<%=luchtvaartmaatschappij.getId()%>">
+
                     <p>
                         <label for="naam">Naam: </label>
                         <input type="text" id="naam" name="naam" value="<%=luchtvaartmaatschappij.getLuchtvaartnaam()%>"></input>
@@ -37,6 +37,9 @@
 
                 </div>                              
             </form>
+
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
         </div>
     </body>
 </html>

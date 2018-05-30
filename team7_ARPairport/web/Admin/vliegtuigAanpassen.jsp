@@ -57,7 +57,10 @@
                     <input type="submit" value="Aanpassen" name="vliegtuigAanpassen" />
 
                 </div>
-            </form>            
+            </form>       
+
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
         </div>                       
     </body>
 </html>
