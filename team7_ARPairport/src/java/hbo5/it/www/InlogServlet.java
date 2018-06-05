@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "InlogServlet", urlPatterns = {"/InlogServlet"}, initParams = {
     @WebInitParam(name = "url", value = "jdbc:oracle:thin:@ti-oracledb06.thomasmore.be:1521:XE")
-    , @WebInitParam(name = "login", value = "C1042424")
+    , @WebInitParam(name = "login", value = "C1042431")
     , @WebInitParam(name = "paswoord", value = "1234")
     , @WebInitParam(name = "driver", value = "oracle.jdbc.driver.OracleDriver")})
 

@@ -10,6 +10,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Error!</title>
+        <style>
+            body {
+                font-family: "Lucida Console", Monaco, monospace;
+                background-color: lightblue;
+                width:1200px;
+                margin: 0 auto;
+            }
+        </style>
     </head>
     <body>
         <h1>Oeps!</h1>

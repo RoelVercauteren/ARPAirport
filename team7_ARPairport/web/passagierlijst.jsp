@@ -30,13 +30,11 @@
         <% ArrayList<Passagier> passagiers = (ArrayList<Passagier>) request.getAttribute("passagiers");%>
         <h1>Passagierlijst vlucht <%=passagiers.get(0).getVlucht().getCode()%></h1>
         <table class="redTable">
-            <thead>
             <th>Naam</th>
             <th>Ingecheckt</th>
             <th>Klasse</th>
             <th>Land</th>
             <th>Geboortedatum</th>
-        </thead>
         <tbody>
             <%for (int i = 0; i < 10; i++) {
                     out.println("<tr>");
