@@ -5,7 +5,10 @@
  */
 package hbo5.it.www.dataaccess;
 
+import hbo5.it.www.beans.Luchthaven;
+import hbo5.it.www.beans.Luchtvaartmaatschappij;
 import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.beans.Vliegtuig;
 import hbo5.it.www.beans.Vlucht;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -172,9 +175,13 @@ public class DAPersoon {
        
       
         try (Connection connection = DriverManager.getConnection(url, login, password);
-                PreparedStatement statement = connection.prepareStatement("select * from  persoon join passagier"
-                        + " on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht "
-                        + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID where PERSOON.ID=?"                      
+                PreparedStatement statement = connection.prepareStatement(
+                        "select * from  persoon join passagier"
+                                + "on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht"
+                                + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID join  vliegtuig"
+                                +" on VLIEGTUIG_ID=VLIEGTUIG.ID join LUCHTHAVEN"
+                                + "on AANKOMSTLUCHTHAVEN_ID=LUCHTHAVEN.ID join LUCHTHAVEN"
+                                +" on VERTREKLUCHTHAVEN_ID=LUCHTHAVEN.ID where PERSOON.ID=?"
                 );) {
             statement.setString(1, persoonId);
             
@@ -184,8 +191,37 @@ public class DAPersoon {
                 vlucht.setId(resultSet.getInt("id"));
                 vlucht.setCode(resultSet.getString("code"));
                 vlucht.setVertrektijd(resultSet.getDate("vertrektijd"));
+                
+                vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
+                Vliegtuig vliegtuig = new Vliegtuig();
+                vliegtuig.setId(resultSet.getInt("vliegtuig_id"));
+                vliegtuig.setLuchtvaartmaatschappij_id(resultSet.getInt("luchtvaartmaatschappij_id"));
+                Luchtvaartmaatschappij luchtvmp = new Luchtvaartmaatschappij();
+                luchtvmp.setId(resultSet.getInt("luchtvaartmaatschappij_id"));
+                luchtvmp.setLuchtvaartnaam(resultSet.getString("luchtvaartnaam"));
+                vliegtuig.setLuchtvaartmaatschappij(luchtvmp);
+                vliegtuig.setVliegtuigtype_id(resultSet.getInt("vliegtuigtype_id"));
+                vlucht.setVliegtuig(vliegtuig);
+                
+                vlucht.setVertrekluchthaven_id(resultSet.getInt("vertrekluchthaven_id"));
+                Luchthaven vertrekhaven = new Luchthaven();
+                vertrekhaven.setId(resultSet.getInt(15));
+                vertrekhaven.setLuchthavennaam(resultSet.getString(16));
+                vertrekhaven.setStad(resultSet.getString(17));
+                vertrekhaven.setLand_id(resultSet.getInt(18));
+                vlucht.setVertrekluchthaven(vertrekhaven);
+                
+                vlucht.setAankomstluchthaven_id(resultSet.getInt("aankomstluchthaven_id"));
+                Luchthaven aankomsthaven = new Luchthaven();
+                aankomsthaven.setId(resultSet.getInt(11));
+                aankomsthaven.setLuchthavennaam(resultSet.getString(12));
+                aankomsthaven.setStad(resultSet.getString(13));
+                aankomsthaven.setLand_id(resultSet.getInt(14));
+                vlucht.setAankomstluchthaven(aankomsthaven);
+                
                 vlucht.setAankomsttijd(resultSet.getDate("aankomsttijd"));
                 vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
+                
                 vluchten.add(vlucht);
             }     
                     

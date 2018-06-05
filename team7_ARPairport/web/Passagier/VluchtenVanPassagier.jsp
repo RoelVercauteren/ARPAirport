@@ -30,8 +30,8 @@
     <body>
         <h1>Uw vluchten</h1>
 
-        <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("vluchten"); %>
-        <% vluchten.sort(new VluchtComparator()); %>
+        <% ArrayList<Vlucht> vluchten = (ArrayList<Vlucht>) request.getAttribute("geboekteVluchten"); %>
+       <!--  vluchten.sort(new VluchtComparator());  -->
 
         <table border="1" class="redTable">
             <tr>
@@ -44,7 +44,7 @@
                 <th>Meer Details</th>
                 <th></th>
             </tr>
-
+            
             <% for (Vlucht vlucht : vluchten) {%>
             <tr>
                 <td><%=vlucht.getCode()%></td>
