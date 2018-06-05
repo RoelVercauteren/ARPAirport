@@ -486,12 +486,12 @@ public class DAVlucht {
         return vluchten;
     }
     
-    public ArrayList<Vlucht> getVluchtenVoorBemanning(int bemanningslidID) {
+    public ArrayList<Vlucht> getVluchtenVoorBemanning(int persoonID) {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
         
         try (Connection connection = DriverManager.getConnection(url, login, password);
-            PreparedStatement statement = connection.prepareStatement("select * from vlucht  join  vluchtbemanning on ID=Vluchtbemanning.Vlucht_ID WHERE Vluchtbemanning.Bemanningslid_ID = ? )");) {
-            statement.setInt(1, bemanningslidID);
+            PreparedStatement statement = connection.prepareStatement("select * from vlucht join vluchtbemanning on Vlucht.ID=Vluchtbemanning.Vlucht_ID join bemanningslid on Vluchtbemanning.BEMANNINGSLID_ID = Bemanningslid.ID WHERE Bemanningslid.PERSOON_ID = ?)");) {
+            statement.setInt(1, persoonID);
             ResultSet resultSet = statement.executeQuery();
             
             while (resultSet.next()) {

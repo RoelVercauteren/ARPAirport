@@ -84,6 +84,7 @@ public class ManageServlet extends HttpServlet {
 
             } else if (p.getSoort().equals("B")) {
                 session.setAttribute("servlet", "");
+                session.setAttribute("vluchten", davlucht.getVluchtenVoorBemanning(p.getId()));
                 response.sendRedirect("bemanningslid.jsp");
             }
 
