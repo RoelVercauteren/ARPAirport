@@ -19,7 +19,6 @@
 
     </head>
     <body>
-
         <div class="maincontainer">
 
             <h2>Bemanningslid Toevoegen</h2>
@@ -52,7 +51,7 @@
                     </p>
 
                     <p>
-                        <label for="selectPersoon">Functie: </label>
+                        <label for="selectPersoon">Persoon: </label>
 
                         <% ArrayList<Persoon> personen = (ArrayList<Persoon>) request.getAttribute("personen");%>
 
@@ -67,9 +66,10 @@
                     <input type="submit" value="Toevoegen" name="bemanningslidToevoegen" />
 
                 </div>
-            </form>
+            </form>      
+                        
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
         </div>
-
-
     </body>
 </html>

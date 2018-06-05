@@ -19,7 +19,6 @@
 
     </head>
     <body>
-
         <div class="maincontainer">
             <h2>Vluchtbemanning Aanpassen</h2>
 
@@ -50,7 +49,7 @@
                         </select>
                     </p>  
 
-                    
+
                     <p>
                         <label for="selectVlucht">Vlucht: </label>
 
@@ -66,7 +65,9 @@
 
                 </div>                              
             </form>
-        </div>
 
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
+        </div>
     </body>
 </html>

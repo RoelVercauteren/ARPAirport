@@ -40,8 +40,8 @@
         <h3>Per Vlucht</h3>
         <table class="redTable">
             <tr>
-                <td>Vlucht</td>
-                <td>Aantal Passagiers</td>
+                <th>Vlucht</th>
+                <th>Aantal Passagiers</th>
             </tr>
             <% for (Map.Entry<String, Integer> entry : passagiersPerVlucht.entrySet()) {%>
             <tr>                
@@ -54,8 +54,8 @@
         <h3>Per Dag</h3>
         <table class="redTable">
             <tr>
-                <td>Dag</td>
-                <td>Aantal Passagiers</td>
+                <th>Dag</th>
+                <th>Aantal Passagiers</th>
             </tr>
             <% for (Map.Entry<String, Integer> entry : passagiersPerDag.entrySet()) {%>
             <tr>                
@@ -68,8 +68,8 @@
         <h3>Per Maand</h3>
         <table class="redTable">
             <tr>
-                <td>Maand</td>
-                <td>Aantal Passagiers</td>
+                <th>Maand</th>
+                <th>Aantal Passagiers</th>
             </tr>
             <% for (Map.Entry<String, Integer> entry : passagiersPerMaand.entrySet()) {%>
             <tr>                
@@ -79,7 +79,7 @@
             <% }%>
         </table>
 
-        <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+        <p><a href="AdminServlet?knopStatistiekenOpvragen">Terug</a></p>
 
     </body>
 </html>

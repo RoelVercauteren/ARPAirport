@@ -21,7 +21,7 @@
 
             <form action="AdminServlet">
                 <div class="divinform">        
-                    
+
                     <p>
                         <label for="naam">Naam: </label>
                         <input type="text" id="naam" name="naam"></input>
@@ -31,6 +31,8 @@
 
                 </div>
             </form>
+
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
 
         </div>
     </body>

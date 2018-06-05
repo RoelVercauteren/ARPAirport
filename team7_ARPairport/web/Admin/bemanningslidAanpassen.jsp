@@ -20,7 +20,6 @@
 
     </head>
     <body>
-
         <div class="maincontainer">
 
             <h2>Bemanningslid Aanpassen</h2>
@@ -30,7 +29,7 @@
 
                     <%
                         Bemanningslid bemanningslid = (Bemanningslid) request.getAttribute("bemanningslid");
-                        
+
                         ArrayList<Luchtvaartmaatschappij> luchtvaartmaatschappijen = (ArrayList<Luchtvaartmaatschappij>) request.getAttribute("luchtvaartmaatschappijen");
                         ArrayList<Functie> functies = (ArrayList<Functie>) request.getAttribute("functies");
                         ArrayList<Persoon> personen = (ArrayList<Persoon>) request.getAttribute("personen");
@@ -59,7 +58,7 @@
                     </p>
 
                     <p>
-                        <label for="selectPersoon">Functie: </label>
+                        <label for="selectPersoon">Persoon. </label>
 
                         <select name="selectPersoon">
                             <% for (Persoon persoon : personen) {%>
@@ -71,8 +70,10 @@
                     <input type="submit" value="Aanpassen" name="bemanningslidAanpassen" />
 
                 </div>
-            </form>            
-        </div>                     
+            </form>    
 
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
+        </div>
     </body>
 </html>

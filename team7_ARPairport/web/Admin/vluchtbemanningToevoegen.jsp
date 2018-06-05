@@ -51,7 +51,7 @@
 
                         <select name="selectVlucht">
                             <% for (Vlucht vlucht : vluchten) {%>
-                            <option name="selectVlucht" value="<%=vlucht.getId()%>"><%=vlucht.getCode()%>: <%=vlucht.getVertrekluchthaven().getLuchthavennaam() %> - <%=vlucht.getAankomstluchthaven().getLuchthavennaam() %></option>
+                            <option name="selectVlucht" value="<%=vlucht.getId()%>"><%=vlucht.getCode()%>: <%=vlucht.getVertrekluchthaven().getLuchthavennaam()%> - <%=vlucht.getAankomstluchthaven().getLuchthavennaam()%></option>
                             <% }%>    
                         </select>
                     </p>  
@@ -61,7 +61,9 @@
 
                 </div>
             </form>
-        </div>
 
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
+        </div>
     </body>
 </html>

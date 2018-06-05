@@ -12,10 +12,8 @@
         <title>Hangar Toevoegen</title>
 
         <link rel="stylesheet" type="text/css" href="css/formstyle.css">
-
     </head>
     <body>
-
         <div class="maincontainer">
 
             <h2>Hangar Toevoegen</h2>
@@ -29,11 +27,11 @@
                     </p>                
 
                     <input type="submit" value="Toevoegen" name="hangarToevoegen" />
-
                 </div>
             </form>
 
-        </div>
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
 
+        </div>
     </body>
 </html>
