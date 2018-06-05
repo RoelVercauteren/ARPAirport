@@ -64,10 +64,10 @@
                     out.println("<td>");
                     out.println(vluchten.get(i).getAankomstluchthaven().getLuchthavennaam());
                     out.println("</td>");
-                    out.print("<input type='submit' name='");
+                    out.print("<td><a href='ManageServlet?passagierlijstvlucht=");
                     out.print(vluchten.get(i).getId());
-                    out.print("' value='Passagierlijst'");
-                    out.println("</tr>");
+                    out.print("'><input type='submit' value='Passagierlijst' name='passagierlijstvlucht'/></a>");
+                    out.println("</td></tr>");
                 }
                 out.println("</table>");
             } else {

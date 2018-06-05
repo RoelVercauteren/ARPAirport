@@ -7,6 +7,7 @@ package hbo5.it.www.dataaccess;
 
 import hbo5.it.www.beans.Luchthaven;
 import hbo5.it.www.beans.Luchtvaartmaatschappij;
+import hbo5.it.www.beans.Persoon;
 import hbo5.it.www.beans.Vliegtuig;
 import hbo5.it.www.beans.Vliegtuigtype;
 import hbo5.it.www.beans.Vlucht;
@@ -490,7 +491,7 @@ public class DAVlucht {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
         
         try (Connection connection = DriverManager.getConnection(url, login, password);
-            PreparedStatement statement = connection.prepareStatement("select * from vlucht join vluchtbemanning on Vlucht.ID=Vluchtbemanning.Vlucht_ID join bemanningslid on Vluchtbemanning.BEMANNINGSLID_ID = Bemanningslid.ID WHERE Bemanningslid.PERSOON_ID = ?)");) {
+            PreparedStatement statement = connection.prepareStatement("select * from vlucht join luchthaven on Vlucht.vertrekluchthaven_id = Luchthaven.id join Luchthaven on Vlucht.aankomstluchthaven_id = Luchthaven.id join vluchtbemanning on Vlucht.ID=Vluchtbemanning.Vlucht_ID join bemanningslid on Vluchtbemanning.BEMANNINGSLID_ID = Bemanningslid.ID WHERE Bemanningslid.PERSOON_ID = ?");) {
             statement.setInt(1, persoonID);
             ResultSet resultSet = statement.executeQuery();
             
@@ -503,11 +504,17 @@ public class DAVlucht {
                 vlucht.setAankomsttijd(resultSet.getDate("aankomsttijd"));
                 vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
                 
+                Luchthaven vertrekhaven = new Luchthaven();
+                vertrekhaven.setLuchthavennaam(resultSet.getString(9));
+                Luchthaven aankomsthaven = new Luchthaven();
+                aankomsthaven.setLuchthavennaam(resultSet.getString(13));
+                vlucht.setVertrekluchthaven(vertrekhaven);
+                vlucht.setAankomstluchthaven(aankomsthaven);
+                vluchten.add(vlucht);
             }
         } catch(Exception e){
             e.printStackTrace();
         }
         return vluchten;
     }
-
 }

@@ -16,8 +16,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% ArrayList<Passagier> passagiers = request.getAttribute("passagiers");%>
-        <h1>Passagierlijst vlucht ID</h1>
+        <% ArrayList<Passagier> passagiers = (ArrayList<Passagier>)request.getAttribute("passagiers");%>
+        <h1>Passagierlijst vlucht <%=passagiers.get(0).getVlucht_id()%></h1>
         <table>
             <thead>
             <th>Naam</th>

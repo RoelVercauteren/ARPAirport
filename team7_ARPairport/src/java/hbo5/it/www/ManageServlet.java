@@ -48,6 +48,7 @@ public class ManageServlet extends HttpServlet {
      */
     private DAVlucht davlucht = null;
     private DAPersoon dapersoon = null;
+    private DAPassagier dapassagier = null;
 
     @Override
     public void init() throws ServletException {
@@ -62,6 +63,9 @@ public class ManageServlet extends HttpServlet {
             }
             if (dapersoon == null) {
                 dapersoon = new DAPersoon(url, login, paswoord, driver);
+            }
+            if (dapassagier == null) {
+                dapassagier = new DAPassagier(url, login, paswoord, driver);
             }
 
         } catch (ClassNotFoundException e) {
@@ -84,8 +88,12 @@ public class ManageServlet extends HttpServlet {
 
             } else if (p.getSoort().equals("B")) {
                 session.setAttribute("servlet", "");
-                session.setAttribute("vluchten", davlucht.getVluchtenVoorBemanning(p.getId()));
+                ArrayList<Vlucht> vluchten = davlucht.getVluchtenVoorBemanning(p.getId());
+                session.setAttribute("vluchten", vluchten);
                 response.sendRedirect("bemanningslid.jsp");
+            }
+            else {
+                response.sendRedirect("admin.jsp");
             }
 
             /**
@@ -119,7 +127,13 @@ public class ManageServlet extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
+            } else if (request.getParameter("passagierlijstvlucht") != null){
+                int id= Integer.parseInt(request.getParameter("passagierlijstvlucht"));
+                request.setAttribute("passagiers", dapassagier.getPassagiersVlucht(id));
+                rd = request.getRequestDispatcher("passagierlijst.jsp");
+                rd.forward(request, response);
+            }
+            else {
                 rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             }

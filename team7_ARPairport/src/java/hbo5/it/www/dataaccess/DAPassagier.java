@@ -102,7 +102,7 @@ public class DAPassagier {
             while (resultSet.next()) {
                 Passagier passagier = new Passagier();
                 passagier.setId(resultSet.getInt("id"));
-                passagier.setKlasse_id(resultSet.getInt("klasse_id")); 
+                passagier.setKlasse_id(resultSet.getInt("klasse_id"));
 
                 Vliegtuigklasse klasse = new Vliegtuigklasse();
                 klasse.setId(resultSet.getInt("klasse_id"));
@@ -119,4 +119,33 @@ public class DAPassagier {
         return passagiers;
     }
 
+    public ArrayList<Passagier> getPassagiersVlucht(int vluchtID) {
+        ArrayList<Passagier> passagiers = new ArrayList();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from PASSAGIER join PERSOON on PASSAGIER.Persoon_ID = Persoon.ID join VLUCHT on VLUCHT.ID=VLUCHT_ID join VLIEGTUIGKLASSE on KLASSE_ID=VLIEGTUIGKLASSE.ID where VLUCHT_ID=?");) {
+            statement.setInt(1, vluchtID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Passagier passagier = new Passagier();
+                passagier.setId(resultSet.getInt("id"));
+                passagier.setKlasse_id(resultSet.getInt("klasse_id"));
+                Persoon p = new Persoon();
+                p.setVoornaam(resultSet.getString(9));
+                p.setFamilienaam(resultSet.getString(10));
+                p.setLand(resultSet.getString(15));
+                p.setGeboortedatum(resultSet.getDate(16));
+                Vliegtuigklasse klasse = new Vliegtuigklasse();
+                klasse.setId(resultSet.getInt("klasse_id"));
+                klasse.setKlassenaam(resultSet.getString("klassenaam"));
+
+                passagier.setVliegtuigklasse(klasse);
+
+                passagiers.add(passagier);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return passagiers;
+    }
 }
