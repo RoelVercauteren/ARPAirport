@@ -911,6 +911,8 @@ public class AdminServlet extends HttpServlet {
 
             request.setAttribute("passagiersPerKlasse", passagiersPerKlasse);
             request.setAttribute("vlucht", vlucht);
+        } else if (request.getParameter("knopLogout") != null) {
+            rd = request.getRequestDispatcher("index.jsp");
         }
 
         rd.forward(request, response);

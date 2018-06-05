@@ -179,7 +179,8 @@ public class DAPersoon {
                         "select * from  persoon join passagier "
                                 + "on PERSOON.ID=PASSAGIER.PERSOON_ID join vlucht "
                                 + "on VLUCHT.ID=PASSAGIER.VLUCHT_ID join vliegtuig "
-                                +" on VLIEGTUIG_ID=VLIEGTUIG.ID join LUCHTHAVEN "
+                                +" on VLIEGTUIG_ID=VLIEGTUIG.ID join LUCHTVAARTMAATSCHAPPIJ "
+                                + "on VLIEGTUIG.LUCHTVAARTMAATSCHAPPIJ_ID=LUCHTVAARTMAATSCHAPPIJ.ID join LUCHTHAVEN "
                                 + "on AANKOMSTLUCHTHAVEN_ID=LUCHTHAVEN.ID join LUCHTHAVEN "
                                 +" on VERTREKLUCHTHAVEN_ID=LUCHTHAVEN.ID where PERSOON.ID=?"
                 );) {

@@ -32,6 +32,8 @@
                     <input type="submit" value="Beheren vliegtuigen in hangars" name="knopVliegtuigenInHangars"/>
                     <hr>
                     <input type="submit" value="Statistieken opvragen" name="knopStatistiekenOpvragen"/>
+                    <hr>
+                    <input type="submit" value="Log Uit" name="knopLogout"/>
                 </div>
             </form>
         </div>
