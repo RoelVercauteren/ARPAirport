@@ -135,11 +135,15 @@ public class DAPassagier {
                 p.setFamilienaam(resultSet.getString(10));
                 p.setLand(resultSet.getString(15));
                 p.setGeboortedatum(resultSet.getDate(16));
+                passagier.setPersoon(p);
                 Vliegtuigklasse klasse = new Vliegtuigklasse();
                 klasse.setId(resultSet.getInt("klasse_id"));
                 klasse.setKlassenaam(resultSet.getString("klassenaam"));
-
                 passagier.setVliegtuigklasse(klasse);
+                
+                Vlucht vlucht = new Vlucht();
+                vlucht.setCode(resultSet.getString("code"));
+                passagier.setVlucht(vlucht);
 
                 passagiers.add(passagier);
             }

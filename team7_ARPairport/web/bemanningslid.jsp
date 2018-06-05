@@ -13,7 +13,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" type="text/css" href="css/formstyle.css">
         <link rel="stylesheet" type="text/css" href="css/tablestyle.css">
         <style>
             body {
@@ -74,5 +73,8 @@
                 out.println("<p>U heeft geen toekomstige vluchten op uw schema.</p>");
             }
         %>
+
+        <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
     </body>
 </html>
