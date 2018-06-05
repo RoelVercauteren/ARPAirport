@@ -19,7 +19,7 @@
             body {
                 font-family: "Lucida Console", Monaco, monospace;
                 background-color: lightblue;
-                width:800px;
+                width: 1200px;
                 margin: 0 auto;
             }
         </style>
@@ -71,6 +71,8 @@
             <% }%>
 
         </table>                        
+
+        <p><a href="admin.jsp">Terug</a></p>
 
     </body>
 </html>

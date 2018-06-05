@@ -18,7 +18,6 @@
 
     </head>
     <body>
-
         <div class="maincontainer">
 
             <h2>Stockage Toevoegen</h2>
@@ -70,7 +69,9 @@
 
                 </div>
             </form>
-        </div>
 
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+
+        </div>
     </body>
 </html>

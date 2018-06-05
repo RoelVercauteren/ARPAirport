@@ -19,15 +19,13 @@
             %>
             <p>
             <h2>Welcome <%=persoon.getVoornaam()%></h2>
-            <form acion="InlogServlet">
-                <input type="submit" value="logout" name="btnLogout"></button>
-            </form>
         </p>
         <form action="ManageServlet">
             <div class="divinform">
                 <h2>Wat wil je bekijken?</h2>
                 <input type="submit" value="Geboekte vluchten" name="knopGeboekte"/>
                 <input type="submit" value="Alle vluchten" name="knopAlleVluchten"/>
+                <input type="submit" value="logout" name="btnLogout">
             </div>
         </form>
     </div>

@@ -11,9 +11,11 @@ import hbo5.it.www.beans.Hangar;
 import hbo5.it.www.beans.Land;
 import hbo5.it.www.beans.Luchthaven;
 import hbo5.it.www.beans.Luchtvaartmaatschappij;
+import hbo5.it.www.beans.Passagier;
 import hbo5.it.www.beans.Persoon;
 import hbo5.it.www.beans.Stockage;
 import hbo5.it.www.beans.Vliegtuig;
+import hbo5.it.www.beans.Vliegtuigklasse;
 import hbo5.it.www.beans.Vliegtuigtype;
 import hbo5.it.www.beans.Vlucht;
 import hbo5.it.www.beans.Vluchtbemanning;
@@ -27,6 +29,7 @@ import hbo5.it.www.dataaccess.DAPassagier;
 import hbo5.it.www.dataaccess.DAPersoon;
 import hbo5.it.www.dataaccess.DAStockage;
 import hbo5.it.www.dataaccess.DAVliegtuig;
+import hbo5.it.www.dataaccess.DAVliegtuigklasse;
 import hbo5.it.www.dataaccess.DAVliegtuigtype;
 import hbo5.it.www.dataaccess.DAVlucht;
 import hbo5.it.www.dataaccess.DAVluchtbemanning;
@@ -80,6 +83,7 @@ public class AdminServlet extends HttpServlet {
     private DAVlucht davlucht = null;
     private DAStockage dastockage = null;
     private DAPassagier dapassagier = null;
+    private DAVliegtuigklasse davliegtuigklasse = null;
 
     @Override
     public void init() throws ServletException {
@@ -127,6 +131,9 @@ public class AdminServlet extends HttpServlet {
             }
             if (dapassagier == null) {
                 dapassagier = new DAPassagier(url, login, paswoord, driver);
+            }
+            if (davliegtuigklasse == null) {
+                davliegtuigklasse = new DAVliegtuigklasse(url, login, paswoord, driver);
             }
 
         } catch (ClassNotFoundException e) {
@@ -855,7 +862,29 @@ public class AdminServlet extends HttpServlet {
         } else if (request.getParameter("knopStatistiekenVlucht") != null) {
             int id = Integer.parseInt(request.getParameter("selectVlucht"));
 
-//todo
+            Vlucht vlucht = davlucht.getVlucht(id);
+
+            ArrayList<Passagier> passagiers = dapassagier.getPassagiersPerVlucht(id);
+
+            ArrayList<Vliegtuigklasse> klassen = davliegtuigklasse.getVliegtuigKlassen();
+
+            Map<String, Integer> passagiersPerKlasse = new HashMap<String, Integer>();
+
+            for (Vliegtuigklasse vliegtuigklasse : klassen) {
+                passagiersPerKlasse.put(vliegtuigklasse.getKlassenaam(), 0);
+            }
+
+            for (Passagier passagier : passagiers) {
+                for (Vliegtuigklasse vliegtuigklasse : klassen) {
+                    if (vliegtuigklasse.getId() == passagier.getKlasse_id()) {
+                        passagiersPerKlasse.replace(vliegtuigklasse.getKlassenaam(), passagiersPerKlasse.get(vliegtuigklasse.getKlassenaam()) + 1);
+                    }
+                }
+            }
+            rd = request.getRequestDispatcher("Admin/passagiersPerKlasse.jsp");
+
+            request.setAttribute("passagiersPerKlasse", passagiersPerKlasse);
+            request.setAttribute("vlucht", vlucht);
         }
 
         rd.forward(request, response);

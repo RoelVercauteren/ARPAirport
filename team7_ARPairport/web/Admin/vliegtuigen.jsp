@@ -63,8 +63,7 @@
 
         </table>
 
-
-
+        <p><a href="admin.jsp">Terug</a></p>
 
     </body>
 </html>

@@ -99,6 +99,9 @@
 
                 </div>
             </form>
+
+            <p><a href="admin.jsp">Terug</a></p>
+
         </div>
     </body>
 </html>

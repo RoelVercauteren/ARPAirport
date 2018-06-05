@@ -7,6 +7,7 @@ package hbo5.it.www.dataaccess;
 
 import hbo5.it.www.beans.Passagier;
 import hbo5.it.www.beans.Persoon;
+import hbo5.it.www.beans.Vliegtuigklasse;
 import hbo5.it.www.beans.Vlucht;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -89,6 +90,33 @@ public class DAPassagier {
         }
         return -1;
 
+    }
+
+    public ArrayList<Passagier> getPassagiersPerVlucht(int vluchtid) {
+        ArrayList<Passagier> passagiers = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+                PreparedStatement statement = connection.prepareStatement("select * from PASSAGIER join VLUCHT on VLUCHT.ID=VLUCHT_ID join VLIEGTUIGKLASSE on KLASSE_ID=VLIEGTUIGKLASSE.ID where VLUCHT_ID=?");) {
+            statement.setInt(1, vluchtid);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Passagier passagier = new Passagier();
+                passagier.setId(resultSet.getInt("id"));
+                passagier.setKlasse_id(resultSet.getInt("klasse_id")); 
+
+                Vliegtuigklasse klasse = new Vliegtuigklasse();
+                klasse.setId(resultSet.getInt("klasse_id"));
+                klasse.setKlassenaam(resultSet.getString("klassenaam"));
+
+                passagier.setVliegtuigklasse(klasse);
+
+                passagiers.add(passagier);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return passagiers;
     }
 
 }

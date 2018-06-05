@@ -19,7 +19,6 @@
 
     </head>
     <body>
-
         <div class="maincontainer">
 
             <h2>Stockage Aanpassen</h2>
@@ -43,12 +42,12 @@
 
                     <p>
                         <label for="vandatum">Vanaf: </label>
-                        <input type="date" id="vandatum" name="vandatum" value="<%=stockage.getVandatum() %>"></input>
+                        <input type="date" id="vandatum" name="vandatum" value="<%=stockage.getVandatum()%>"></input>
                     </p> 
 
                     <p>
                         <label for="totdatum">Tot: </label>
-                        <input type="date" id="totdatum" name="totdatum" value="<%=stockage.getTotdatum() %>"></input>
+                        <input type="date" id="totdatum" name="totdatum" value="<%=stockage.getTotdatum()%>"></input>
                     </p> 
 
                     <p>
@@ -75,7 +74,9 @@
 
                 </div>
             </form>            
-        </div>                     
-
+                        
+            <p><a href="#" onclick="history.go(-1)">Terug</a></p>
+            
+        </div>
     </body>
 </html>

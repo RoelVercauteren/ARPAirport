@@ -59,7 +59,7 @@ public class DAVlucht {
         return vluchten;
     }
 
-    public ArrayList<Vlucht> getVluchten() {
+    public ArrayList<Vlucht> getVluchten() throws SQLException {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(url, login, password);
