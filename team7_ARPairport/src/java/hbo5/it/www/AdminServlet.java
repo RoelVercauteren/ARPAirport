@@ -35,6 +35,7 @@ import hbo5.it.www.dataaccess.DAVlucht;
 import hbo5.it.www.dataaccess.DAVluchtbemanning;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -561,7 +562,12 @@ public class AdminServlet extends HttpServlet {
                 } else {
                     rd = request.getRequestDispatcher("Admin/vluchtbemanningToevoegen.jsp");
 
-                    ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                    ArrayList<Vlucht> vluchten = new ArrayList<>();
+                    try {
+                        vluchten = davlucht.getVluchten();
+                    } catch (SQLException ex) {
+
+                    }
                     request.setAttribute("vluchten", vluchten);
 
                     ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
@@ -570,7 +576,12 @@ public class AdminServlet extends HttpServlet {
             } else {
                 rd = request.getRequestDispatcher("Admin/vluchtbemanningToevoegen.jsp");
 
-                ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                ArrayList<Vlucht> vluchten = new ArrayList<>();
+                try {
+                    vluchten = davlucht.getVluchten();
+                } catch (SQLException ex) {
+
+                }
                 request.setAttribute("vluchten", vluchten);
 
                 ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
@@ -604,7 +615,12 @@ public class AdminServlet extends HttpServlet {
 
                 request.setAttribute("vluchtbemanning", vluchtbemanning);
 
-                ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                ArrayList<Vlucht> vluchten = new ArrayList<>();
+                try {
+                    vluchten = davlucht.getVluchten();
+                } catch (SQLException ex) {
+
+                }
                 request.setAttribute("vluchten", vluchten);
 
                 ArrayList<Bemanningslid> bemanningsleden = dabemanningslid.getBemanningsleden();
@@ -731,7 +747,12 @@ public class AdminServlet extends HttpServlet {
             ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
             request.setAttribute("luchthavens", luchthavens);
 
-            ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+            ArrayList<Vlucht> vluchten = new ArrayList<>();
+            try {
+                vluchten = davlucht.getVluchten();
+            } catch (SQLException ex) {
+
+            }
             request.setAttribute("vluchten", vluchten);
 
             rd = request.getRequestDispatcher("Admin/statistieken.jsp");
@@ -854,7 +875,12 @@ public class AdminServlet extends HttpServlet {
             ArrayList<Luchthaven> luchthavens = daluchthaven.getLuchthavens();
             request.setAttribute("luchthavens", luchthavens);
 
-            ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+            ArrayList<Vlucht> vluchten = new ArrayList<>();
+            try {
+                vluchten = davlucht.getVluchten();
+            } catch (SQLException ex) {
+
+            }
             request.setAttribute("vluchten", vluchten);
 
             rd = request.getRequestDispatcher("Admin/statistieken.jsp");
