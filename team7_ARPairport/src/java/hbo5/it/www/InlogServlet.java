@@ -65,7 +65,6 @@ public class InlogServlet extends HttpServlet {
             throws ServletException, IOException {
         if (request.getParameter("login") != null) {
             try {
-                request.setAttribute("servlet", "yes");
                 request.removeAttribute("fout");
                 String url = getInitParameter("url");
                 String login = getInitParameter("login");
