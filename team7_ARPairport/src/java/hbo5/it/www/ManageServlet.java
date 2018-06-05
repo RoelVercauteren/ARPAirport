@@ -48,8 +48,7 @@ public class ManageServlet extends HttpServlet {
      */
     private DAVlucht davlucht = null;
     private DAPersoon dapersoon = null;
-    
-   
+
     @Override
     public void init() throws ServletException {
         try {
@@ -76,19 +75,58 @@ public class ManageServlet extends HttpServlet {
 
         Persoon p = new Persoon();
         HttpSession session = request.getSession();
-        p=(Persoon) session.getAttribute("currentSessionUser");
+        p = (Persoon) session.getAttribute("currentSessionUser");
+        if (session.getAttribute("servlet").equals("y")) {
+            if (p.getSoort().equals("P")) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePassagier.jsp");
+                session.setAttribute("servlet", "");
+                dispatcher.forward(request, response);
 
-        if (p.getSoort().equals("P")) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WelcomePassagier.jsp");
-            dispatcher.forward(request, response);
+            } else if (p.getSoort().equals("B")) {
+                session.setAttribute("servlet", "");
+                response.sendRedirect("bemanningslid.jsp");
+            }
 
-        } else if (p.getSoort().equals("B")) {
-            response.sendRedirect("bemanningslid.jsp");
+            /**
+             * Processes requests for both HTTP <code>GET</code> and
+             * <code>POST</code> methods.
+             *
+             * @param request servlet request
+             * @param response servlet response
+             * @throws ServletException if a servlet-specific error occurs
+             * @throws IOException if an I/O error occurs
+             */
+        } else {
+            RequestDispatcher rd = null;
+
+            p = (Persoon) session.getAttribute("currentSessionUser");
+
+            if (request.getParameter("knopGeboekte") != null) {
+                String stringId = String.valueOf(p.getId());
+                ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
+                request.setAttribute("geboekteVluchten", geboektevluchten);
+                rd = request.getRequestDispatcher("Passagier/VluchtenVanPassagier.jsp");
+                rd.forward(request, response);
+
+            } else if (request.getParameter("knopAlleVluchten") != null) {
+                
+                try {
+                    ArrayList<Vlucht> vluchten = davlucht.getVluchten();
+                    request.setAttribute("vluchten", vluchten);
+                    rd = request.getRequestDispatcher("vluchten.jsp");
+                    rd.forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                rd = request.getRequestDispatcher("index.jsp");
+                rd.forward(request, response);
+            }
         }
 
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
         /**
-         * Processes requests for both HTTP <code>GET</code> and
-         * <code>POST</code> methods.
+         * Handles the HTTP <code>GET</code> method.
          *
          * @param request servlet request
          * @param response servlet response
@@ -96,62 +134,4 @@ public class ManageServlet extends HttpServlet {
          * @throws IOException if an I/O error occurs
          */
     }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        RequestDispatcher rd = null;
-        Persoon p = new Persoon();
-        HttpSession session = request.getSession();
-        p=(Persoon) session.getAttribute("currentSessionUser");
-        
-        if (request.getParameter("knopGeboekte") != null) {
-            String stringId=String.valueOf(p.getId());
-            ArrayList<Vlucht> geboektevluchten = dapersoon.getVluchtenByPersoon(stringId);
-            rd=request.getRequestDispatcher("VluchtenVanPassagier.jsp");
-            rd.forward(request, response);
-            request.setAttribute("geboekteVluchten", geboektevluchten);
-            response.sendRedirect("Passagier/VluchtenVanPassagier.jsp");
-        }
-        else if (request.getParameter("knopAlleVluchten")!=null) {
-            
-            try {
-                ArrayList<Vlucht> vluchten = davlucht.getVlucht();
-                
-                session.setAttribute("vluchten", vluchten);
-                rd = request.getRequestDispatcher("vluchten.jsp");
-                rd.forward(request, response);
-            } catch (SQLException ex) {
-                Logger.getLogger(ManageServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }
-    }
-
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
- 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

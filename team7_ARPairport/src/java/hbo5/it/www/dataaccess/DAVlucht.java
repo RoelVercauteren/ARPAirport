@@ -59,7 +59,7 @@ public class DAVlucht {
         return vluchten;
     }
 
-    public ArrayList<Vlucht> getVluchten() {
+    public ArrayList<Vlucht> getVluchten() throws SQLException {
         ArrayList<Vlucht> vluchten = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(url, login, password);
@@ -481,6 +481,30 @@ public class DAVlucht {
                 vluchten.add(vlucht);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vluchten;
+    }
+    
+    public ArrayList<Vlucht> getVluchtenVoorBemanning(int bemanningslidID) {
+        ArrayList<Vlucht> vluchten = new ArrayList<>();
+        
+        try (Connection connection = DriverManager.getConnection(url, login, password);
+            PreparedStatement statement = connection.prepareStatement("select * from vlucht  join  vluchtbemanning on ID=Vluchtbemanning.Vlucht_ID WHERE Vluchtbemanning.Bemanningslid_ID = ? )");) {
+            statement.setInt(1, bemanningslidID);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                Vlucht vlucht = new Vlucht();
+
+                vlucht.setId(resultSet.getInt("id"));
+                vlucht.setCode(resultSet.getString("code"));
+                vlucht.setVertrektijd(resultSet.getDate("vertrektijd"));
+                vlucht.setAankomsttijd(resultSet.getDate("aankomsttijd"));
+                vlucht.setVliegtuig_id(resultSet.getInt("vliegtuig_id"));
+                
+            }
+        } catch(Exception e){
             e.printStackTrace();
         }
         return vluchten;
