@@ -63,7 +63,7 @@
         </table>
 
 
-        <p><a href="ZoekServlet?zoekKnop">Terug</a></p>
+        <p><a href="#" onclick="history.go(-1)">Terug</a></p>
 
     </body>
 </html>
